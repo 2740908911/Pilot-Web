@@ -1,6 +1,14 @@
-![](https://img.shields.io/badge/漏洞挖掘-blue) ![](https://img.shields.io/badge/渗透测试-blue) ![](https://img.shields.io/badge/Web安全-教学靶场-P) ![](https://img.shields.io/badge/version-1.0-p) ![License: GPL v3](https://img.shields.io/badge/License-GPLv3-orange)
+<h1 align="center">
+Pilot漏洞测试教学靶场
+</h1>
 
-# Pilot漏洞测试教学靶场
+<p align="center">
+<img src="https://img.shields.io/badge/漏洞挖掘-blue">
+<img src="https://img.shields.io/badge/渗透测试-blue">
+<img src="https://img.shields.io/badge/Web安全-教学靶场-P">
+<img src="https://img.shields.io/badge/version-1.0.0-p">
+<img src="https://img.shields.io/badge/License-GPLv3-orange">
+<p>
 
 Pilot领航员靶场是基于Web安全的漏洞测试靶场，一个专为教师和学生设计的WEB安全教学实践平台，旨在帮助网安初学者快速熟悉和掌握目前常见漏洞的原理和实际利用方法，以及帮助安全实践教师在课堂环境中演示教学如何进行WEB漏洞测试。
 
@@ -69,7 +77,7 @@ Pilot靶场由 Flask + Mysql + AdminLTE 框架编写而成，模拟**WEB漏洞�
 
 Pilot漏洞测试教学靶场采用Docker+Docker-Compose技术封装，通过快速部署脚本init.sh进行配置管理和快速部署。
 
-1. 通过clone或releases下载最新的Pilot靶场源码，并解压至部署目录。
+1. 通过clone或[releases](https://github.com/2740908911/Pilot-Web/releases/download/v1.0.0/Pilot-Web.zip)下载最新的Pilot靶场源码，并解压至部署目录。
 
 2. 通过ifconfig命令查看出网IP地址。若靶场只在虚拟机内使用，则略过此步。
 
