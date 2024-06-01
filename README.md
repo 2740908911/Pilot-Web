@@ -1,6 +1,6 @@
 ![](https://img.shields.io/badge/漏洞挖掘-blue) ![](https://img.shields.io/badge/渗透测试-blue) ![](https://img.shields.io/badge/Web安全-教学靶场-P) ![](https://img.shields.io/badge/version-1.0-p) ![License: GPL v3](https://img.shields.io/badge/License-GPLv3-orange)
 
-# Pilot-Web
+# Pilot漏洞测试教学靶场
 
 Pilot领航员靶场是基于Web安全的漏洞测试靶场，一个专为教师和学生设计的WEB安全教学实践平台，旨在帮助网安初学者快速熟悉和掌握目前常见漏洞的原理和实际利用方法，以及帮助安全实践教师在课堂环境中演示教学如何进行WEB漏洞测试。
 
