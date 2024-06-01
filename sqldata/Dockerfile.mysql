@@ -1,0 +1,7 @@
+FROM mysql:5.7
+
+ENV MYSQL_ROOT_PASSWORD=fanqie
+ENV MYSQL_DATABASE=pilot
+
+COPY ./sqldata/mysql.sql /docker-entrypoint-initdb.d/mysql.sql
+EXPOSE 3306

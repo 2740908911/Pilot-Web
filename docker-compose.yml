@@ -1,0 +1,38 @@
+# 不要对docker-compose.yml文件进行任何修改，请在init.sh中修改配置信息
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./pilot-server/Dockerfile.app
+    ports:
+      - "8088:5000" #@web_port@
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./pilot-client/Dockerfile.pilot
+    ports:
+      - "8089:80" #@nginx_port@
+
+  db_mysql:
+    build:
+      context: .
+      dockerfile: ./sqldata/Dockerfile.mysql
+    ports:
+      - "3306:3306" #@mysql_port@
+
+  db_postgres:
+    build:
+      context: .
+      dockerfile: ./sqldata/Dockerfile.pgsql
+    ports:
+      - "5432:5432" #@pgsql_port@
+
+  db_mssql:
+    build:
+      context: .
+      dockerfile: ./sqldata/Dockerfile.mssql
+    ports:
+      - "1433:1433" #@mssql_port@
+

@@ -1,0 +1,15 @@
+# 使用SQL Server基础镜像
+FROM mcr.microsoft.com/mssql/server:2017-latest
+
+ENV ACCEPT_EULA=Y
+ENV SA_PASSWORD=Fanqie.1433
+
+EXPOSE 1433
+
+COPY ./sqldata/mssql.sql ./mssql.sql
+
+RUN ( /opt/mssql/bin/sqlservr & ) \
+    | grep -q "Service Broker manager has started" \
+    && /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P $SA_PASSWORD -i ./mssql.sql \
+    && pkill sqlservr
+
