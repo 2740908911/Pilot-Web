@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>XML外部实体注入-概述</title>
+    <link rel="stylesheet"
+          href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>概述</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="markdown prose w-full break-words dark:prose-invert light">
+                            <p>XXE漏洞是指XML外部实体注入漏洞（XML External Entity Injection），应用程序在解析XML内容时，没有禁止外部实体的加载，导致可加载恶意外部文件，危害服务器安全。</p>
+                            <p>通常，攻击者会在XML文档中注入恶意的外部实体引用，这些实体引用包含了恶意代码，一旦被服务器解析执行，就会执行相应的操作，例如访问敏感数据、上传恶意文件等。攻击者可以通过修改HTTP请求中的XML数据来触发XXE漏洞。</p>
+                            <p>一般XXE漏洞存在以下危害：</p>
+                            <ol>
+                                <li><p>文件读取</p></li>
+                                <li><p>内网端口扫描</p></li>
+                                <li><p>攻击内网网站</p></li>
+                                <li><p>发起dos攻击</p></li>
+                                <li><p>命令执行（特定情况下）</p></li>
+                            </ol>
+                            <p>所有能传能解析XML数据给服务端的地方，都可能存在XXE，例如：上传XML、Excel、Word、Svg等文件。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <footer class="main-footer"></footer>
+    <script src="../../dist/js/templateHandle.js"></script>
+    <script>
+        setWrapperHeader("XML外部实体注入", ["概述"]);
+    </script>
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="../../dist/js/adminlte.js"></script>
+</body>
+</html>

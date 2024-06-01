@@ -1,0 +1,11 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<link rel='stylesheet' href='../../../plugins/googleapis/fonts.css'>
+<link rel="stylesheet" href="../../../dist/css/markdown.css">
+</head>
+<body class='typora-export os-windows'><div class='typora-export-content'>
+<div id='write'  class=''><ul><li><p><strong><span>客户端验证码绕过介绍</span></strong></p><p><span>验证码绕过是一大类漏洞的概述，主要针对验证码缺陷进行攻击，而验证码又包含图形验证码、短信验证码、语音验证码，邮箱验证码等。一个安全的验证码机制在生成和验证阶段不可能同时由不受信任的用户控制，且生成的每个验证码生命周期一定要确保一次性使用（不管验证成功与否），否则会被轻易的绕过。此外还要确保验证码的复杂度和生成方法安全。</span></p><p><span>此处的客户端验证码绕过漏洞即复现了一个完全在前端生成且判断的图形验证码。</span></p></li></ul><p></br></p><ul><li><p><strong><span>验证码的定义</span></strong></p><p><span>验证码（CAPTCHA）是一种区分用户是计算机还是人的公共全自动程序。可以防止：恶意破解密码、刷票、论坛灌水，有效防止某个黑客对某一个特定注册用户用特定程序暴力破解方式进行不断的登陆尝试，实际上用验证码是现在很多网站通行的方式，我们利用比较简易的方式实现了这个功能。这个问题可以由计算机生成并评判，但是必须只有人类才能解答。由于计算机无法解答CAPTCHA的问题，所以回答出问题的用户就可以被认为是人类。</span></p></li></ul><p></br></p><ul><li><p><strong><span>验证码客户端绕过漏洞成因</span></strong></p><p><span>验证码在前端JS中生成，并在JS中判断。这个验证码的生命周期完全又不受信任的用户控制，而不与服务器产生任何关联。通过修改JS函数或直接抓取与服务器交互的接口即可轻易绕过。</span></p></li></ul><p></br></p><ul><li><p><strong><span>图形验证码其他漏洞</span></strong></p><ul><li><p><span>验证码响应包返回。</span></p></li><li><p><span>验证码使用成功后未销毁（可复用）。</span></p></li><li><p><span>生成验证码的字符集可控（可预测）。</span></p></li><li><p><span>验证码存放位置暴露。</span></p></li><li><p><span>验证码对比失败后仍进行其他对比（未及时更新）。</span></p></li><li><p><span>验证码尺寸长度可控。</span></p></li><li><p><span>验证码过于简单,可轻易机器识别(OCR)。</span></p></li><li><p><span>置空验证码绕过。</span></p></li><li><p><span>错误超过一定次数才开启验证码。</span></p></li></ul></li></ul><p></br></p><ul><li><p><strong><span>验证码客户端绕过修复</span></strong></p><p><span>完善验证码机制，保证后端生成、后端验证且不出现其他的验证码缺陷问题。</span></p></li></ul><p></br></p><ul><li><p><strong><span>推荐学习文章</span></strong></p><ol start='' ><li><p><a href='https://blog.csdn.net/lza20001103/article/details/124529482' target="_blank"><span>CSDN-渗透测试-暴力破解之验证码客户端验证绕过</span></a></p></li><li><p><a href='https://xz.aliyun.com/t/4984' target="_blank"><span>先知-浅析图形验证码安全</span></a></p></li><li><p><a href='https://xz.aliyun.com/t/6029' target="_blank"><span>先知-细说验证码安全 —— 测试思路大梳理</span></a></p></li><li><p><a href='https://blog.csdn.net/weixin_38237216/article/details/124136956' target="_blank"><span>CSDN-验证码绕过---zkaq</span></a></p></li></ol></li></ul></div></div>
+</body>
+</html>

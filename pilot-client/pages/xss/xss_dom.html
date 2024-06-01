@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>XSS跨站脚本-DOM型XSS</title>
+  <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+  <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+  <div class="content-wrapper" id="Wrapper">
+    <section class="content-header" id="WrapperHeader"></section>
+    <section class="content">
+      <div class="container-fluid">
+        <div id="notice"></div>
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><strong>DOM型XSS</strong></h3>
+          </div>
+          <div class="card-body">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">你是谁？</h3>
+              </div>
+              <form action="" onsubmit="return false" id="Login">
+                <div class="card-body">
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="own-text" id="own-text" placeholder="输入你的名字">
+                  </div>
+                  <button type="submit" class="btn btn-primary" onclick="submitText()">确认</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="card card-warning card-outline" id="hint">
+            <div class="card-header">
+                <h3 class="card-title"><strong>思路提示</strong></h3>
+            </div>
+            <div class="card-body">
+                <div>
+                  <ul><li>你知道什么是DOM吗？</li></ul>
+                </div>
+            </div>
+        </div>
+        <div class="card card-success card-outline" id="writeUp">
+            <div class="card-header">
+                <h3 class="card-title"><strong>正确实现</strong></h3>
+            </div>
+            <div class="card-body">
+              <ol start=""><li><p><span>进入漏洞页面后，在输入框输入跨站脚本payload：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l3-1.png" referrerpolicy="no-referrer" alt="l3-1"></div></p></li><li><p><span>发现</span><code>&lt;script&gt;</code><span>标签无法触发XSS，使用</span><code>&lt;img&gt;</code><span>标签进行测试：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l3-2.png" referrerpolicy="no-referrer" alt="l3-2"></div></p></li><li><p><span>成功进行XSS，除此标签外，以下标签也可以在本题中XSS：</span></p><ul><li><p><code>&lt;input onfocus="alert('xss');"&gt;</code></p></li><li><p><code>&lt;iframe onload=alert("xss");&gt;&lt;/iframe&gt;</code></p></li><li><p><code>&lt;audio src=x onerror=alert("xss");&gt;</code></p></li><li><p><code>&lt;a onclick=alert(1)&gt;M</code></p></li><li><p><code>&lt;div onclick="alert('xss')"&gt;</code></p></li><li><p><code>&lt;svg onclick="alert('xss')"&gt;</code></p></li><li><p><code>&lt;form/action=javascript:alert(22)&gt;&lt;input/type=submit&gt;</code></p></li><li><p><span>……</span></p></li></ul></li></ol>
+            </div>
+        </div>
+        <div class="card card-info card-outline" id="showSource">
+            <div class="card-header">
+                <h3 class="card-title"><strong>源码解析</strong></h3>
+            </div>
+            <div class="card-body">
+              <ul style="margin-bottom: 0;"><li>在将用户输入直接拼接至JS代码时，未对数据进行过滤；但此漏洞危害较低，影响不大：</li></ul>
+              <div class="card-body" style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sCode-3.html" width="100%" height="115px"></object></div>
+          </div>
+        </div>
+        <div class="card card-orange card-outline" id="repository">
+            <div class="card-header">
+                <h3 class="card-title"><strong>知识梳理</strong></h3>
+            </div>
+            <div class="card-body">
+              <div style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sum-3.html" width="100%" height="3455px"></object></div>
+            </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <footer class="main-footer"></footer>
+  <script src="../../dist/js/templateHandle.js"></script>
+  <script>
+    setWrapperHeader("XSS跨站脚本", ["DOM型xss"]);
+  </script>
+  <script src="../../plugins/jquery/jquery.min.js"></script>
+  <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <script src="../../dist/js/adminlte.js"></script>
+  <script>
+    function submitText(){
+      $("#notice")[0].innerHTML = generateNote("你好呀： " + $("#own-text")[0].value + " !")
+    }
+  </script>
+</body>
+</html>

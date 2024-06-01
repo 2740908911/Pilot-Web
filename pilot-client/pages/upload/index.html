@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>文件上传-概述</title>
+    <link rel="stylesheet"
+          href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>概述</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="markdown prose w-full break-words dark:prose-invert light">
+                            <p>文件上传漏洞，字如其意，就是可能出现在一切允许上传文件的功能点。攻击者可以利用此漏洞将任意文件上传到服务器上，从而实现攻击目的。</p>
+                            <p>任意文件上传通常是由于Web应用程序的开发人员没有对上传的文件类型和文件大小进行充分的验证和过滤所致。攻击者可以通过修改上传的文件类型、伪造上传的文件头等方式绕过验证，上传任意类型和大小的文件。一旦攻击者上传了恶意文件，他们就可以在服务器上执行任意的命令，并获得系统权限，这将给Web应用程序带来严重的安全威胁。</p>
+                            <p>根据允许上传文件类型分类，会产生的危害也不同：</p>
+                            <ol>
+                                <li><p>允许上传脚本语言文件且解析 ==> getshell</p></li>
+                                <li><p>允许上传html ==> xss、csrf、登陆劫持...</p></li>
+                                <li><p>允许上传压缩包 ==> 压缩包DOS、解压文件getshell、目录穿越</p></li>
+                                <li><p>允许上传pdf、svg、gif ==> xss、ssrf</p></li>
+                                <li><p>允许上传png、jpg等 ==> dos、图片码getshell</p></li>
+                                <li><p>允许上传excel、docx ==> xxe</p></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <footer class="main-footer"></footer>
+    <script src="../../dist/js/templateHandle.js"></script>
+    <script>
+        setWrapperHeader("文件上传", ["概述"]);
+    </script>
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="../../dist/js/adminlte.js"></script>
+</body>
+</html>

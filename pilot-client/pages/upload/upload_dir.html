@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>文件上传-目录穿越</title>
+  <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+  <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+  <div class="content-wrapper" id="Wrapper">
+    <section class="content-header" id="WrapperHeader"></section>
+    <section class="content">
+      <div class="container-fluid">
+        <div id="notice"></div>
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><strong>目录穿越</strong></h3>
+          </div>
+          <div class="card-body">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">图片上传</h3>
+              </div>
+              <form action="" onsubmit="return false;">
+                <div class="card-body">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputFile" onchange="checkFileExt(this.value)">
+                        <label class="custom-file-label" for="inputFile">请选择需要上传的图片</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary" onclick="uploadImage()">上传</button>
+                </div>
+              </form>
+            </div>
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th>编号</th>
+                <th>文件名</th>
+                <th>上传时间</th>
+                <th>操作</th>
+              </tr>
+              </thead>
+              <tbody id="FileData">
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card card-warning card-outline" id="hint">
+            <div class="card-header">
+                <h3 class="card-title"><strong>思路提示</strong></h3>
+            </div>
+            <div class="card-body">
+                <div>
+                  <ul><li>为什么要暴露文件名和储存地址！？</li></ul>
+                </div>
+            </div>
+        </div>
+        <div class="card card-success card-outline" id="writeUp">
+            <div class="card-header">
+                <h3 class="card-title"><strong>正确实现</strong></h3>
+            </div>
+            <div class="card-body">
+              <ol start=""><li><p><span>进入漏洞页面，发现只能上传图片；准备一个可造成XSS的HTML文件或PDF文件：</span></p><ul><li><p><span>例如在HTML文件中写入</span><code>&lt;img src=1 onerror=alert(1)&gt;</code></p></li></ul></li><li><p><span>通过F12找到上传检查的代码，发现并无限制。选择文件，抓包上传：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l4-1.png" referrerpolicy="no-referrer" alt="l4-1"></div></p></li><li><p><span>发现并没有任何过滤即可上传，且未对文件加密，并返回了文件存储路径。</span></p></li><li><p><span>尝试修改文件名，看能否穿越目录上传恶意HTML文件：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l4-2.png" referrerpolicy="no-referrer" alt="l4-2"></div></p></li><li><p><span>成功上传至上一级目录，并造成XSS：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l4-3.png" referrerpolicy="no-referrer" alt="l4-3"></div></p></li></ol>
+            </div>
+        </div>
+        <div class="card card-info card-outline" id="showSource">
+            <div class="card-header">
+                <h3 class="card-title"><strong>源码解析</strong></h3>
+            </div>
+            <div class="card-body">
+              <ul style="margin-bottom: 0;"><li>在后端接收上传数据时，直接通过名字拼接路径存储，同时回显了上传地址，可造成目录穿越：</li></ul>
+              <div class="card-body" style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sCode-4.html" width="100%" height="815px"></object></div>
+          </div>
+        </div>
+        <div class="card card-orange card-outline" id="repository">
+            <div class="card-header">
+                <h3 class="card-title"><strong>知识梳理</strong></h3>
+            </div>
+            <div class="card-body">
+              <div style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sum-3.html" width="100%" height="3230px"></object></div>
+            </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<aside class="control-sidebar control-sidebar-dark">
+</aside>
+<footer class="main-footer"></footer>
+<script src="../../dist/js/templateHandle.js"></script>
+<script>
+  setWrapperHeader("文件上传", ["目录穿越"]);
+</script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="../../dist/js/adminlte.js"></script>
+<script>
+  function uploadImage() {
+    var fileInput = document.getElementById('inputFile');
+    var file = fileInput.files[0];
+
+    if (!file) {
+      $("#notice")[0].innerHTML = generateNote("请先选择文件，再进行上传");
+      return;
+    }
+
+    var formData = new FormData();
+    formData.append('file', file);
+
+    $.ajax({
+      url: 'http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/upload/l4/client',
+      type: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function(data) {
+        if (data.status === "200") {
+          $("#notice")[0].innerHTML = generateNote('文件上传成功！');
+          fetchFilesAndUpdateUI();
+        } else {
+          $("#notice")[0].innerHTML = generateNote('上传失败: ' + data.msg);
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error('上传失败:', error);
+      }
+    });
+  }
+
+  function deleteFile(hashname) {
+    $.ajax({
+      url: 'http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/upload/l4/delfile',
+      type: 'GET',
+      data: {
+        file: hashname
+      },
+      success: function(response) {
+        if (response.status === "200") {
+          $("#notice")[0].innerHTML = generateNote("删除成功！");
+          fetchFilesAndUpdateUI();
+        } else {
+          $("#notice")[0].innerHTML = generateNote("删除失败: " + response.msg);
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error("请求删除文件失败:", error);
+      }
+    });
+  }
+
+  function checkFileExt(filename) {
+    var fileLabel = document.querySelector('label[for="inputFile"]');
+    var fileName = filename.split('\\').pop();
+    fileLabel.textContent = fileName;
+    return true;
+  }
+
+  function fetchFilesAndUpdateUI() {
+    $.ajax({
+      url: 'http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/upload/l4/getfile',
+      type: 'GET',
+      dataType: 'json',
+      success: function(response) {
+        if (response.status === "200" && response.msg.length > 0) {
+          var fileDataHtml = '';
+          response.msg.forEach(function(file, index) {
+            fileDataHtml += '<tr>' +
+                    '<td>' + (index + 1) + '</td>' +
+                    '<td>' + file.FILENAME + '</td>' +
+                    '<td>' + file.TIME + '</td>' +
+                    '<td>' +
+                    '<a href="http://{ENV:NET_IP}:{ENV:NGINX_PORT}/pages/upload/' + file.HASHNAME + '" target="_blank" style="color: #53aefd; margin-right: 15px;">下载/预览</a>' +
+                    '<a href="#" style="color: red;" onclick="deleteFile(\'' + file.HASHNAME + '\');">删除</a>' +
+                    '</td>' +
+                    '</tr>';
+          });
+          $("#FileData").html(fileDataHtml);
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error("获取文件列表失败:", error);
+      }
+    });
+  }
+
+  fetchFilesAndUpdateUI();
+
+</script>
+</body>
+</html>

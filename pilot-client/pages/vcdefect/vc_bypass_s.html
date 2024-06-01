@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>验证码缺陷-服务端验证码绕过</title>
+  <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+  <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+  <div class="content-wrapper" id="Wrapper">
+    <section class="content-header" id="WrapperHeader"></section>
+    <section class="content">
+      <div class="container-fluid">
+        <div id="notice"></div>
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><strong>服务端验证码绕过</strong></h3>
+          </div>
+          <div class="card-body">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">后台登录</h3>
+              </div>
+              <form action="" onsubmit="return false" id="Login">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Enter username or phone number">
+                  </div>
+                  <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                  </div>
+                  <div class="form-group">
+                    <label for="code">输入验证码</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" name="code" id="code" placeholder="Enter Code">
+                      <div class="input-group-append">
+                        <img src="" id="codeImage" alt="" style="width: 120px; height: 40px; cursor: pointer;" onclick="getCode()">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button type="submit" id="loginButton" class="btn btn-primary" onclick="doLogin()">登录</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="card card-warning card-outline" id="hint">
+            <div class="card-header">
+                <h3 class="card-title"><strong>思路提示</strong></h3>
+            </div>
+            <div class="card-body">
+                <div>
+                  <ul><li>这个验证码怎么不刷新哇？？！</li></ul>
+                </div>
+            </div>
+        </div>
+        <div class="card card-success card-outline" id="writeUp">
+            <div class="card-header">
+                <h3 class="card-title"><strong>正确实现</strong></h3>
+            </div>
+            <div class="card-body">
+              <ol start=""><li><p><span>在WEB页面登录任意账号，输入正确的验证码，并抓包：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l2-1.png" referrerpolicy="no-referrer" alt="l2-1"></div></p></li><li><p><span>可以发现登录请求包附带了页面输入的验证码，此时修改密码为错误密码，并重放：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l2-2.png" referrerpolicy="no-referrer" alt="l2-2"></div></p></li><li><p><span>请求包在没有修改验证码的情况下，提示“用户名或密码错误”，而不是验证码错误。</span></p></li><li><p><span>此时再修改密码为正确密码，验证码不变，依旧可以登录成功：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l2-3.png" referrerpolicy="no-referrer" alt="l2-3"></div></p></li><li><p><span>可以发现，验证码虽然经过服务端验证，但是在登录失败时或登录成功后，验证码均未刷新。</span></p></li><li><p><span>因此只需服务端首次完成验证码判断后，固定参数</span><code>code</code><span>值不变，则仍可进行密码枚举。</span></p></li></ol>
+            </div>
+        </div>
+        <div class="card card-info card-outline" id="showSource">
+            <div class="card-header">
+                <h3 class="card-title"><strong>源码解析</strong></h3>
+            </div>
+            <div class="card-body">
+              <ul style="margin-bottom: 0;"><li>验证码在后端进行验证，但登录成功或失败后，并没有更新验证码，导致一个正确的验证码可反复使用：</li></ul>
+              <div class="card-body" style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sCode-2.html" width="100%" height="760px"></object></div>
+          </div>
+        </div>
+        <div class="card card-orange card-outline" id="repository">
+            <div class="card-header">
+                <h3 class="card-title"><strong>知识梳理</strong></h3>
+            </div>
+            <div class="card-body">
+              <div style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sum-2.html" width="100%" height="1390px"></object></div>
+            </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <footer class="main-footer"></footer>
+  <script src="../../dist/js/templateHandle.js"></script>
+  <script>
+    setWrapperHeader("验证码缺陷", ["服务端验证码绕过"]);
+  </script>
+  <script src="../../plugins/jquery/jquery.min.js"></script>
+  <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <script src="../../dist/js/adminlte.js"></script>
+  <script>
+    getCode();
+    function getCode(){
+      // 更新验证码图片的src属性，触发浏览器重新加载图片
+      $("#codeImage").attr("src", "http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/vc/l2/getcode?" + new Date().getTime());
+    }
+    function doLogin(){
+      let data = {
+        username: $("#username")[0].value,
+        password: $("#password")[0].value,
+        code:  $("#code")[0].value,
+      }
+      if (data.username.length <= 0 || data.password.length <= 0 || data.code.length <= 0) {
+        $("#notice")[0].innerHTML = generateNote("登录失败：缺少参数");
+        return;
+      }
+      $.post({
+        url: `http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/vc/l2/login`,
+        data,
+        dataType: "json",
+        xhrFields: {
+          withCredentials: true
+        },
+        success(resp){
+          if(resp["status"] === "200"){
+            $("#notice")[0].innerHTML = generateNote("登录成功！欢迎, " + resp["username"]);
+            $("#loginButton").prop('disabled', true);
+          } else if(resp["status"] === "405"){
+            getCode();
+            $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+          } else if(resp["status"] === "402"){
+            getCode();
+            $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+          } else if(resp["status"] === "401"){
+            getCode();
+            $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+          }
+        }
+      })
+    }
+
+  </script>
+</body>
+</html>

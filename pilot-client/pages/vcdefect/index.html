@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>验证码缺陷-概述</title>
+    <link rel="stylesheet"
+          href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>概述</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="markdown prose w-full break-words dark:prose-invert light">
+                            <p>验证码缺陷攻击是攻击者尝试绕过验证码保护的一种常见方法，旨在实现未授权的访问或自动化提交。验证码（CAPTCHA）设计用于区分人类用户与机器，但不完善的实现可能允许攻击者绕过这一机制。</p>
+                            <p>从验证码的形式进行分类，可以分为图形验证码、邮件验证码、手机验证码及其他类型，每种类型验证码暴露出的缺陷不同，Pilot靶场主要介绍了使用最频繁的图像验证码。</p>
+                            <p>常见的图形验证码缺陷漏洞大概有以下几种：</p>
+                            <ol>
+                                <li><p>
+                                    假验证码：验证码置空也可直接进行功能操作，绕过验证码功能。</p>
+                                </li>
+                                <li><p>
+                                    验证码不刷新：验证码在功能操作失败（登录失败）后不刷新，可以爆破。</p>
+                                </li>
+                                <li><p>
+                                    验证码可复用：验证码可以重复使用，使用后不对验证码进行销毁。</p>
+                                </li>
+                                <li><p>
+                                    验证码内容回显：验证码答案通过响应包回显至前端。</p>
+                                </li>
+                                <li><p>
+                                    验证码可识别：验证码可以通过OCR识别，干扰线条过弱。</p>
+                                </li>
+                                <li><p>
+                                    验证码前端校验：验证码在前端生成和校验，全程不经过服务端。</p>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <aside class="control-sidebar control-sidebar-light">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <footer class="main-footer"></footer>
+    <script src="../../dist/js/templateHandle.js"></script>
+    <script>
+        setWrapperHeader("验证码缺陷", ["概述"]);
+    </script>
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="../../dist/js/adminlte.js"></script>
+</body>
+</html>

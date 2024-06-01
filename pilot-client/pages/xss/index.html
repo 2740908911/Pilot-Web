@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>XSS跨站脚本-概述</title>
+    <link href="../../plugins/googleapis/fonts.css"
+          rel="stylesheet">
+    <link href="../../plugins/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css" rel="stylesheet">
+    <link href="../../dist/css/adminlte.min.css" rel="stylesheet">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav class="main-header navbar navbar-expand navbar-light" id="Navbar"></nav>
+    <aside class="main-sidebar sidebar-light-primary elevation-4" id="Container"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>概述</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="markdown prose w-full break-words dark:prose-invert light">
+                          <p>XSS跨站脚本攻击（Cross-site scripting）是一种Web应用程序中常见的安全漏洞，攻击者通过该漏洞可以向网站注入恶意脚本（通常是JavaScript），从而获取受害者的敏感信息或者在受害者的浏览器上执行恶意操作。</p>
+
+                          <p>根据攻击方式和实现方式的不同，XSS漏洞可以分为以下几种分类：</p>
+                          <ol>
+                            <li><p>反射型XSS漏洞：攻击者构造恶意URL，在用户访问该URL时，恶意脚本会被注入到响应的页面中，从而导致攻击的发生。</p></li>
+                            <li><p>存储型XSS漏洞：攻击者将恶意脚本存储到Web应用程序的数据库或者其他存储设备中，当用户请求相关的页面时，恶意脚本会被动态加载到响应的页面中，从而导致攻击的发生。</p></li>
+                            <li><p>DOM型XSS漏洞：攻击者通过修改页面的DOM结构来执行恶意脚本，而不是直接注入到HTML中。当用户浏览网站时，恶意脚本会被浏览器执行，从而导致攻击的发生。DOM型XSS攻击完全发生在客户端，不涉及数据在服务器之间的往返。</p></li>
+                          </ol>
+                          <p>XSS漏洞可能导致多种安全问题，例如：盗取用户登录凭证（Cookie）、劫持用户会话、修改网页内容、网页挂马、恶意重定向、Dos攻击、钓鱼攻击、XSS蠕虫攻击等。</p>
+                        </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <footer class="main-footer"></footer>
+    <script src="../../dist/js/templateHandle.js"></script>
+    <script>
+        setWrapperHeader("XSS跨站脚本", ["概述"]);
+    </script>
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="../../dist/js/adminlte.js"></script>
+</body>
+</html>

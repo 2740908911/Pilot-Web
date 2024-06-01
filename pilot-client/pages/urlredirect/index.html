@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>URL重定向-概述</title>
+    <link rel="stylesheet"
+          href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>概述</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="markdown prose w-full break-words dark:prose-invert light">
+                            <p>URL跳转漏洞（URL Redirection）又叫开放重定向漏洞（Open Redirect），是一种常见的网络安全漏洞，该漏洞通常出现在需要用户输入URL的业务场景中，如重置密码、绑定邮箱等。该漏洞的根本原因是没有对用户提供的URL进行充分的验证和过滤，导致攻击者可以通过构造恶意URL，将用户重定向到任意的网站或应用程序中。</p>
+                            <p>URL跳转一般以用户客户端为主要攻击目标，危害大致有：</p>
+                            <ol>
+                                <li><p>钓鱼攻击： 攻击者可以将用户重定向到伪装成合法网站的钓鱼网站，以获取用户的敏感信息，如用户名、密码、银行账户等。</p></li>
+                                <li><p>恶意软件传播： 攻击者可以将用户重定向到恶意网站，从而下载和安装恶意软件，对用户设备进行感染。</p></li>
+                                <li><p>网络针对性攻击： 攻击者可以将用户重定向到特定的恶意网站，利用浏览器或插件漏洞来攻击用户的系统。</p></li>
+                                <li><p>品牌声誉受损： 恶意重定向可能会导致受攻击网站的品牌声誉受损，用户会失去对该网站的信任。</p></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <footer class="main-footer"></footer>
+    <script src="../../dist/js/templateHandle.js"></script>
+    <script>
+        setWrapperHeader("URL重定向", ["概述"]);
+    </script>
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="../../dist/js/adminlte.js"></script>
+</body>
+</html>

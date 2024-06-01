@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>XSS跨站脚本-存储型XSS</title>
+  <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+  <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+  <div class="content-wrapper" id="Wrapper">
+    <section class="content-header" id="WrapperHeader"></section>
+    <section class="content">
+      <div class="container-fluid">
+        <div id="notice"></div>
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><strong>存储型XSS</strong></h3>
+          </div>
+          <div class="card-body">
+            <div class="card card-primary">
+              <div class="card-header" id="LoginT">
+                <h3 class="card-title">后台登录</h3>
+              </div>
+              <form action="" onsubmit="return false" id="Login">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Enter username or phone number">
+                  </div>
+                  <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button type="submit" id="loginButton" class="btn btn-primary" onclick="doLogin()">登录</button>
+                </div>
+              </form>
+            </div>
+            <div class="card card-primary" id="adminAuthSection">
+              <div class="card-header">
+                <h3 class="card-title"><strong>管理员：系统登录日志</strong></h3>
+              </div>
+              <div class="card-body">
+                <table id="adminAuthTable" class="table">
+                  <thead>
+                  <tr>
+                    <th>序号</th>
+                    <th>用户</th>
+                    <th>时间</th>
+                    <th>IP</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card card-warning card-outline" id="hint">
+            <div class="card-header">
+                <h3 class="card-title"><strong>思路提示</strong></h3>
+            </div>
+            <div class="card-body">
+                <div>
+                  <ul><li>如果IP能伪造？？！</li></ul>
+                </div>
+            </div>
+        </div>
+        <div class="card card-success card-outline" id="writeUp">
+            <div class="card-header">
+                <h3 class="card-title"><strong>正确实现</strong></h3>
+            </div>
+            <div class="card-body">
+              <ol start=""><li><p><span>进入漏洞页面后抓包，登录</span><code>admin</code><span>账号，发现日志记录了登录时IP地址：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l2-1.png" referrerpolicy="no-referrer" alt="l2-1"></div></p></li><li><p><span>考虑在登录请求包中伪造IP：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l2-2.png" referrerpolicy="no-referrer" alt="l2-2"></div></p></li><li><p><span>刷新页面并重新登录，触发XSS：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l2-3.png" referrerpolicy="no-referrer" alt="l2-3"></div></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l2-4.png" referrerpolicy="no-referrer" alt="l2-4"></div></p></li><li><p><span>除此标签外，以下标签也可以在本题中XSS：</span></p><ul><li><p><code>&lt;img src=1 onerror=alert(1)&gt;</code></p></li><li><p><code>&lt;input onfocus="alert('xss');"&gt;</code></p></li><li><p><code>&lt;iframe onload=alert("xss");&gt;&lt;/iframe&gt;</code></p></li><li><p><code>&lt;audio src=x onerror=alert("xss");&gt;</code></p></li><li><p><code>&lt;a onclick=alert(1)&gt;M</code></p></li><li><p><code>&lt;div onclick="alert('xss')"&gt;</code></p></li><li><p><code>&lt;svg onclick="alert('xss')"&gt;</code></p></li><li><p><code>&lt;form/action=javascript:alert(22)&gt;&lt;input/type=submit&gt;</code></p></li><li><p><span>……</span></p><p>&nbsp;</p></li></ul></li></ol>
+            </div>
+        </div>
+        <div class="card card-info card-outline" id="showSource">
+            <div class="card-header">
+                <h3 class="card-title"><strong>源码解析</strong></h3>
+            </div>
+            <div class="card-body">
+              <ul style="margin-bottom: 0;"><li>后端没有正确过滤处理日志记录的IP信息，后端也不应接受XFF伪造的IP：</li></ul>
+              <div class="card-body" style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sCode-2.html" width="100%" height="675px"></object></div>
+          </div>
+        </div>
+        <div class="card card-orange card-outline" id="repository">
+            <div class="card-header">
+                <h3 class="card-title"><strong>知识梳理</strong></h3>
+            </div>
+            <div class="card-body">
+              <div style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sum-2.html" width="100%" height="3100px"></object></div>
+            </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <footer class="main-footer"></footer>
+  <script src="../../dist/js/templateHandle.js"></script>
+  <script>
+    setWrapperHeader("XSS跨站脚本", ["存储型XSS"]);
+  </script>
+  <script src="../../plugins/jquery/jquery.min.js"></script>
+  <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <script src="../../dist/js/adminlte.js"></script>
+  <script>
+    $(document).ready(function() {
+      $("#adminAuthSection").hide(); // 页面加载时隐藏
+    });
+
+    var loginData = {
+      username: null,
+      token: null
+    };
+    function doLogin(){
+      let data = {
+        username: $("#username")[0].value,
+        password: $("#password")[0].value,
+      }
+      $.post({
+        url: `http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/xss/l2/login`,
+        data,
+        dataType: "json",
+        success(resp){
+          if(resp["status"] === "200"){
+            loginData.token = resp["token"]; // 从响应中获取token
+            loginData.username = resp["username"]; // 从响应中获取用户名
+            $("#notice")[0].innerHTML = generateNote("登录成功！欢迎, " + resp["username"]);
+            fetchAdminAuthData();
+          } else if(resp["status"] === "405"){
+            $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+          } else if(resp["status"] === "401"){
+            $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+          }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          // 添加错误处理
+          $("#notice")[0].innerHTML = generateNote("发生错误：" + textStatus + ", " + errorThrown);
+        }
+      })
+    }
+
+    function fetchAdminAuthData() {
+      $.ajax({
+        url: 'http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/xss/l2/getlog',
+        headers: {
+          'Authorization': loginData.token
+        },
+        success: function(response) {
+          if (response.status === "403") {
+            $("#notice")[0].innerHTML = generateNote("Token过期或错误，请重新登录");
+          } else if (response.status === "400") {
+            $("#notice")[0].innerHTML = generateNote("账号权限不足，请使用高权限账号登录");
+          } else if (response.status === "200") {
+            $("#adminAuthSection").show();
+            $("#LoginT").hide();
+            $("#Login").hide();
+            populateAuthTable(response.msg);
+          }
+        },
+        error: function() {
+          $("#notice")[0].innerHTML = generateNote("数据获取失败，请稍后重试");
+        }
+      });
+    }
+
+    function populateAuthTable(data) {
+      var tableBody = $("#adminAuthTable tbody");
+      tableBody.empty();
+
+      data.forEach(function(item, index) {
+        var row = `
+      <tr>
+        <td style="font-size: 21px">${index + 1}</td>
+        <td style="font-size: 21px">${item.USERNAME}</td>
+        <td style="font-size: 21px">${item.TIME}</td>
+        <td style="font-size: 21px">${item.LOGINIP}</td>
+      </tr>
+    `;
+        tableBody.append(row);
+      });
+
+    }
+
+  </script>
+</body>
+</html>

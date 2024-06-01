@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>验证码缺陷-客户端验证码绕过</title>
+  <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+  <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+  <div class="content-wrapper" id="Wrapper">
+    <section class="content-header" id="WrapperHeader"></section>
+    <section class="content">
+      <div class="container-fluid">
+        <div id="notice"></div>
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><strong>客户端验证码绕过</strong></h3>
+          </div>
+          <div class="card-body">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">后台登录</h3>
+              </div>
+              <form action="" onsubmit="return false" id="Login">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Enter username or phone number">
+                  </div>
+                  <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                  </div>
+                  <div class="form-group">
+                    <label for="code">输入验证码</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" name="code" id="code" placeholder="Enter Code">
+                      <div class="input-group-append">
+                        <div class="input-group-append">
+                          <canvas id="codeCanvas" width="120" height="35" style="border:1px solid #ccc; cursor:pointer;" onclick="getCode()"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button type="submit" id="loginButton" class="btn btn-primary" onclick="doLogin()">登录</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="card card-warning card-outline" id="hint">
+            <div class="card-header">
+                <h3 class="card-title"><strong>思路提示</strong></h3>
+            </div>
+            <div class="card-body">
+                <div>
+                  <ul><li>验证码在前端进行生成和验证？掩耳盗铃罢了！</li></ul>
+                </div>
+            </div>
+        </div>
+        <div class="card card-success card-outline" id="writeUp">
+            <div class="card-header">
+                <h3 class="card-title"><strong>正确实现</strong></h3>
+            </div>
+            <div class="card-body">
+              <ol start=""><li><p><span>在WEB页面登录任意账号，输入正确的验证码，并抓包：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-1.png" referrerpolicy="no-referrer" alt="l1-1"></div></p></li><li><p><span>可以发现登录Post数据包中并没有上传验证码值至服务端，而是通过参数</span><code>verify</code><span>的值判断是否通过验证码。</span></p></li><li><p><span>由此可以确定，判断验证码是否正确的逻辑，位于WEB客户端的JS代码中，通过F12找到关键代码：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-2.png" referrerpolicy="no-referrer" alt="l1-2"></div></p></li><li><p><span>验证码只在客户端有效，登录接口抓包后，只需固定参数</span><code>verify=true</code><span>，则仍可以进行密码爆破。</span></p></li></ol>
+            </div>
+        </div>
+        <div class="card card-info card-outline" id="showSource">
+            <div class="card-header">
+                <h3 class="card-title"><strong>源码解析</strong></h3>
+            </div>
+            <div class="card-body">
+              <ul style="margin-bottom: 0;"><li>验证码在前端JS中生成并验证，通过修改JS或抓包即可绕过：</li></ul>
+              <div class="card-body" style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sCode-1.html" width="100%" height="1320px"></object></div>
+          </div>
+        </div>
+        <div class="card card-orange card-outline" id="repository">
+            <div class="card-header">
+                <h3 class="card-title"><strong>知识梳理</strong></h3>
+            </div>
+            <div class="card-body">
+              <div style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sum-1.html" width="100%" height="1260px"></object></div>
+            </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <footer class="main-footer"></footer>
+  <script src="../../dist/js/templateHandle.js"></script>
+  <script>
+    setWrapperHeader("验证码缺陷", ["客户端验证码绕过"]);
+  </script>
+  <script src="../../plugins/jquery/jquery.min.js"></script>
+  <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <script src="../../dist/js/adminlte.js"></script>
+  <script>
+    var currentCode = ""; // 用于保存当前验证码
+
+    getCode(); // 页面加载时生成验证码
+    function getCode(){
+      var canvas = document.getElementById('codeCanvas');
+      var ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#f0f0f0';
+      ctx.fillRect(0, 0, 120, 40);
+
+      var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      var charactersLength = characters.length;
+      currentCode = '';
+      for (var i = 0; i < 4; i++) {
+        currentCode += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+
+      ctx.font = 'bold 24px Arial'; // 增加字体大小并设置为粗体
+      ctx.textBaseline = 'middle';
+
+      // 函数用于生成随机颜色
+      function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+
+      for (i = 0; i < currentCode.length; i++) {
+        var x = 10 + i * 25;
+        var y = 20 + Math.random() * 10 * (Math.random() > 0.5 ? -1 : 1);
+        var angle = Math.random() * Math.PI / 4 * (Math.random() > 0.5 ? -1 : 1);
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(angle);
+        ctx.fillStyle = getRandomColor(); // 使用随机颜色
+        ctx.fillText(currentCode[i], 0, 0);
+        ctx.restore();
+      }
+
+      // 添加随机颜色的干扰线条
+      for (i = 0; i < 5; i++) {
+        ctx.strokeStyle = getRandomColor(); // 使用随机颜色
+        ctx.beginPath();
+        ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
+        ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height);
+        ctx.stroke();
+      }
+    }
+
+    function doLogin(){
+      let verify = false;
+      let username = $("#username").val();
+      let password = $("#password").val();
+
+      let inputCode = $("#code").val().toLowerCase();
+      let generatedCode = currentCode.toLowerCase();
+      if (username.length <= 0 || password.length <= 0 || inputCode.length <= 0) {
+        $("#notice")[0].innerHTML = generateNote("登录失败：缺少参数");
+        return;
+      }
+      if (inputCode === generatedCode) {
+        verify = true; // 如果验证码正确，设置verify为true
+      }else {
+        $("#notice").html(generateNote("验证码错误！"));
+        return;
+      }
+      $.post({
+        url: `http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/vc/l1/login`,
+        data: {
+          username: username,
+          password: password,
+          verify: verify
+        },
+        dataType: "json",
+        success(resp){
+          if(resp["status"] === "200"){
+            $("#notice")[0].innerHTML = generateNote("登录成功！欢迎, " + resp["username"]);
+            $("#loginButton").prop('disabled', true);
+          } else if(resp["status"] === "405"){
+            $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+          } else if(resp["status"] === "401"){
+            $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+          }
+        }
+      })
+    }
+
+  </script>
+</body>
+</html>

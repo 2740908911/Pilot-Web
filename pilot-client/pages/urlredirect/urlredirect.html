@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>URL重定向-不安全的URL跳转</title>
+  <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+  <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+  <div class="content-wrapper" id="Wrapper">
+    <section class="content-header" id="WrapperHeader"></section>
+    <section class="content">
+      <div class="container-fluid">
+        <div id="notice"></div>
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><strong>不安全的URL跳转</strong></h3>
+          </div>
+          <div class="card-body">
+            <div class="card card-primary">
+              <blockquote>
+                <p>想办法跳转到其他页面吧!</p>
+              </blockquote>
+            </div>
+            <div class="card col-md-12 col-lg-6 col-xl-4">
+              <a href="http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/ur/l1/getimg?url=http://{ENV:NET_IP}:{ENV:NGINX_PORT}/pages/urlredirect/URL.jpg">
+                <img class="card-img-top" src="URL.jpg" alt="Dist Photo 1">
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card card-warning card-outline" id="hint">
+            <div class="card-header">
+                <h3 class="card-title"><strong>思路提示</strong></h3>
+            </div>
+            <div class="card-body">
+                <div>
+                  <ul><li>仔细看看图片是怎么请求的吧！</li></ul>
+                </div>
+            </div>
+        </div>
+        <div class="card card-success card-outline" id="writeUp">
+            <div class="card-header">
+                <h3 class="card-title"><strong>正确实现</strong></h3>
+            </div>
+            <div class="card-body">
+              <ol start=""><li><p><span>进入漏洞页面后，打开F12元素，并指向图片：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-1.png" referrerpolicy="no-referrer" alt="l1-1"></div></p></li><li><p><span>发现图片通过链接远程加载，考虑该URL是否可以恶意跳转。</span></p></li><li><p><span>抓包后，点击该图片，发现存在重定向：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-2.png" referrerpolicy="no-referrer" alt="l1-2"></div></p></li><li><p><span>在请求包修改重定向链接到</span><code>http://www.baidu.com</code><span>，发现可以成功跳转到百度页面：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-3.png" referrerpolicy="no-referrer" alt="l1-3"></div></p><p>&nbsp;</p></li></ol>
+            </div>
+        </div>
+        <div class="card card-info card-outline" id="showSource">
+            <div class="card-header">
+                <h3 class="card-title"><strong>源码解析</strong></h3>
+            </div>
+            <div class="card-body">
+              <ul style="margin-bottom: 0;"><li>在后端接收前端传来的URL时，只判断了链接是否合法，但未使用白名单对地址进行过滤：</li></ul>
+              <div class="card-body" style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sCode-1.html" width="100%" height="305px"></object></div>
+          </div>
+        </div>
+        <div class="card card-orange card-outline" id="repository">
+            <div class="card-header">
+                <h3 class="card-title"><strong>知识梳理</strong></h3>
+            </div>
+            <div class="card-body">
+              <div style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sum-1.html" width="100%" height="3750px"></object></div>
+            </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <footer class="main-footer"></footer>
+  <script src="../../dist/js/templateHandle.js"></script>
+  <script>
+    setWrapperHeader("URL重定向", ["不安全的URL跳转"]);
+  </script>
+  <script src="../../plugins/jquery/jquery.min.js"></script>
+  <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <script src="../../dist/js/adminlte.js"></script>
+</body>
+</html>
