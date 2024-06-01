@@ -31,13 +31,13 @@ Pilot靶场由 Flask + Mysql + AdminLTE 框架编写而成，模拟**WEB漏洞�
 
 ## 主页展示
 
-![index](D:\Desktop\index.png)
+![index](readme\index.png)
 
 ---
 
 ## 全部漏洞环境
 
-![pilot](D:\Desktop\pilot.png)
+![pilot](readme\pilot.png)
 
 ---
 
@@ -47,19 +47,19 @@ Pilot靶场由 Flask + Mysql + AdminLTE 框架编写而成，模拟**WEB漏洞�
 
 * 正确实现：
 
-  ![p1](D:\Desktop\p1.png)
+  ![p1](readme\p1.png)
 
 * 源码解析：
 
-  ![p2](D:\Desktop\p2.png)
+  ![p2](readme\p2.png)
 
 * 知识梳理：
 
-  ![p3](D:\Desktop\p3.png)
+  ![p3](readme\p3.png)
 
 * 漏洞文档：
 
-  ![p4](D:\Desktop\p4.png)
+  ![p4](readme\p4.png)
 
 ---
 
@@ -93,7 +93,7 @@ Pilot漏洞测试教学靶场采用Docker+Docker-Compose技术封装，通过快
    sh init.sh -h || sh init.sh help
    ```
 
-   ![help](D:\Desktop\help.png)
+   ![help](readme\help.png)
 
 ---
 
@@ -103,7 +103,7 @@ Pilot漏洞测试教学靶场采用Docker+Docker-Compose技术封装，通过快
 
 **图片演示：**时间较长，可以根据部署视频进行部署
 
-![PILOT演示视频](D:\Desktop\PILOT演示视频.gif)
+![PILOT演示视频](readme\PILOT.gif)
 
 ---
 
