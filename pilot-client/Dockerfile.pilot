@@ -1,0 +1,17 @@
+FROM nginx:1.18.0
+
+COPY ./pilot-client/pilot.conf /etc/nginx/conf.d/default.conf
+COPY ./pilot-client /usr/share/nginx/pilot-client
+COPY ./pilot-client/init.sh /init.sh
+
+ENV NET_IP=192.168.79.143
+ENV NGINX_PORT=80
+ENV FLASK_PORT=81
+
+# 给脚本执行权限
+RUN chmod +x /init.sh
+
+# 当容器启动时运行脚本
+CMD ["/init.sh"]
+
+EXPOSE 80

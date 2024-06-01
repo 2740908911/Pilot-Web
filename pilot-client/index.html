@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pilot漏洞测试教学靶场</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="plugins/googleapis/fonts.css">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__wobble" src="dist/img/pilot.png" alt="Pilot-fanqie-Logo" height="150" width="150">
+  </div>
+  <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+  <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+  <div class="content-wrapper" id="Wrapper">
+    <section class="content-header" id="WrapperHeader"></section>
+    <section class="content">
+      <div class="container-fluid">
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><strong>Pilot-Web靶场介绍</strong></h3>
+          </div> <!-- /.card-body -->
+          <div class="card-body">
+              <p>Pilot领航员靶场是基于Web安全的漏洞测试靶场，一个专为教师和学生设计的WEB安全教学实践平台，旨在帮助网安初学者快速熟悉和掌握目前常见漏洞的原理和实际利用方法，以及帮助安全实践教师在课堂环境中演示教学如何进行WEB漏洞测试。</p>
+              <p>Pilot靶场由 Flask + Mysql + AdminLTE 框架编写而成，模拟<strong>WEB漏洞分类如下</strong>：</p>
+              <div class="card-body">
+                <table class="table table-bordered table-hover">
+                  <thead style="background-color: #edebeba8;">
+                    <tr>
+                      <th>序</th>
+                      <th>漏洞分类</th>
+                      <th>序</th>
+                      <th>漏洞分类</th>
+                      <th>序</th>
+                      <th>漏洞分类</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>暴力破解</td>
+                      <td>2</td>
+                      <td>验证码缺陷</td>
+                      <td>3</td>
+                      <td>敏感信息泄露</td>
+                    </tr>
+                    <tr>
+                      <td>4</td>
+                      <td>权限控制</td>
+                      <td>5</td>
+                      <td>SQL注入</td>
+                      <td>6</td>
+                      <td>XSS跨站脚本</td>
+                    </tr>
+                    <tr>
+                      <td>7</td>
+                      <td>URL重定向</td>
+                      <td>8</td>
+                      <td>SSRF服务器请求伪造</td>
+                      <td>9</td>
+                      <td>CSRF跨站请求伪造</td>
+                    </tr>
+                    <tr>
+                      <td>10</td>
+                      <td>文件上传</td>
+                      <td>11</td>
+                      <td>文件下载</td>
+                      <td>12</td>
+                      <td>RCE远程命令执行</td>
+                    </tr>
+                    <tr>
+                      <td>13</td>
+                      <td>SSTI模板注入</td>
+                      <td>14</td>
+                      <td>XML外部实体注入</td>
+                      <td>15</td>
+                      <td>Python反序列化</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>每类漏洞根据不同的情况又分别设计了不同的子类，全部共有30个漏洞环境。同时，Pilot在每个环境的右上角嵌入了四个模块作为辅助工具，希望对您的学习或教学有所帮助。</p>
+              <p></p>
+              <p>现在您可以开始享受学习WEB安全的乐趣啦！</p>
+             
+          </div><!-- /.card-body -->
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+  </div>
+
+<script src="dist/js/templateHandle.js"></script>
+<script>
+  setWrapperHeader("主页", ["Pilot-Web靶场介绍"]);
+</script>
+<!-- REQUIRED SCRIPTS -->
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.js"></script>
+</body>
+</html>
