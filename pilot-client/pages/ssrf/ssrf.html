@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SSRF-SSRF远程解析</title>
+  <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+  <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+  <div class="content-wrapper" id="Wrapper">
+    <section class="content-header" id="WrapperHeader"></section>
+    <section class="content">
+      <div class="container-fluid">
+        <div id="notice"></div>
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><strong>SSRF远程解析</strong></h3>
+          </div>
+          <div class="card-body">
+            <div class="card card-primary">
+              <blockquote>
+                <a href="#" onclick="fetchAndDisplayText(event)">
+                  留给初学者的一段话：
+                </a>
+              </blockquote>
+              <pre id="info1" style="display: none; font-size: 20px;">
+              </pre>
+            </div>
+          </div>
+        </div>
+        <div class="card card-warning card-outline" id="hint">
+            <div class="card-header">
+                <h3 class="card-title"><strong>思路提示</strong></h3>
+            </div>
+            <div class="card-body">
+                <div>
+                  <ul><li>SSRF与URL重定向有异曲同工之妙，但你真的能分清吗？</li></ul>
+                </div>
+            </div>
+        </div>
+        <div class="card card-success card-outline" id="writeUp">
+            <div class="card-header">
+                <h3 class="card-title"><strong>正确实现</strong></h3>
+            </div>
+            <div class="card-body">
+              <ol start=""><li><p><span>进入漏洞页面后，抓包，并点击链接</span><strong><span>留给初学者的一段话</span></strong><span>：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-1.png" referrerpolicy="no-referrer" alt="l1-1"></div></p></li><li><p><span>发现请求了其他网页的文件内容，并展示在前端页面：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-2.png" referrerpolicy="no-referrer" alt="l1-2"></div></p></li><li><p><span>修改请求连接的参数</span><code>url</code><span>，尝试使用</span><code>file://</code><span>伪协议读取本地文件内容：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-3.png" referrerpolicy="no-referrer" alt="l1-3"></div></p></li><li><p><span>成功读取passwd文件。注意，这里只开放了</span><code>file/http/https</code><span>协议。</span></p></li></ol>
+            </div>
+        </div>
+        <div class="card card-info card-outline" id="showSource">
+            <div class="card-header">
+                <h3 class="card-title"><strong>源码解析</strong></h3>
+            </div>
+            <div class="card-body">
+              <ul style="margin-bottom: 0;"><li>在接受前端传来的链接时，未对URL地址过滤内网地址，同时也未禁止使用file伪协议读取文件：</li></ul>
+              <div class="card-body" style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sCode-1.html" width="100%" height="715px"></object></div>
+          </div>
+        </div>
+        <div class="card card-orange card-outline" id="repository">
+            <div class="card-header">
+                <h3 class="card-title"><strong>知识梳理</strong></h3>
+            </div>
+            <div class="card-body">
+              <div style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sum-1.html" width="100%" height="3890px"></object></div>
+            </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <footer class="main-footer"></footer>
+  <script src="../../dist/js/templateHandle.js"></script>
+  <script>
+    setWrapperHeader("SSRF服务器端请求伪造", ["SSRF远程解析"]);
+  </script>
+  <script src="../../plugins/jquery/jquery.min.js"></script>
+  <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <script src="../../dist/js/adminlte.js"></script>
+  <script>
+    function fetchAndDisplayText(event) {
+      event.preventDefault(); // 阻止链接的默认行为
+
+      const url = "http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/ssrf/l1/getinfo?url=http://{ENV:NET_IP}:{ENV:NGINX_PORT}/pages/ssrf/ssrf_info.html";
+
+      fetch(url)
+              .then(response => response.text()) // 将响应转换为文本
+              .then(text => {
+                const targetElement = document.querySelector('#info1');
+                targetElement.innerHTML = text; // 插入文本
+                targetElement.style.display = 'block';
+              })
+              .catch(error => console.error('Error:', error));
+    }
+
+  </script>
+</body>
+</html>

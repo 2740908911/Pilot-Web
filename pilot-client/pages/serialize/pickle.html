@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python反序列化-pickle反序列化</title>
+  <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+  <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+  <div class="content-wrapper" id="Wrapper">
+    <section class="content-header" id="WrapperHeader"></section>
+    <section class="content">
+      <div class="container-fluid">
+        <div id="notice"></div>
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><strong>pickle反序列化</strong></h3>
+          </div>
+          <div class="card-body">
+            <div class="card card-secondary" style="margin-left: 60px;margin-right: 60px;">
+              <div class="card-header">
+                <h3 class="card-title">服务器进程监控 -- Ubuntu 22.04.3 LTS (GNU/Linux 5.15.90.1-microsoft-standard-WSL2 x86_64)</h3>
+              </div>
+              <!-- 模拟shell -->
+                <div id="shellPanel" style="background-color: #000; color: #fff; font-family: 'Courier New', monospace; height: 300px; overflow-y: auto; white-space: pre;padding-left: 4ch;">
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="card card-warning card-outline" id="hint">
+            <div class="card-header">
+                <h3 class="card-title"><strong>思路提示</strong></h3>
+            </div>
+            <div class="card-body">
+                <div>
+                  <ul><li>如果像RCE一样简单解码就好了！但是，好像跟刚才没啥区别？？</li></ul>
+                </div>
+            </div>
+        </div>
+        <div class="card card-success card-outline" id="writeUp">
+            <div class="card-header">
+                <h3 class="card-title"><strong>正确实现</strong></h3>
+            </div>
+            <div class="card-body">
+              <ol start=""><li><p><span>进入漏洞页面，发现服务器进程监控每隔固定时间会刷新。</span></p></li><li><p><span>抓包拦截刷新请求，发现通过Base64编码进行了命令执行，但无法解码出命令：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-1.png" referrerpolicy="no-referrer" alt="l1-1"></div></p></li><li><p><span>根据格式判断，此处考虑解码后的数据经过Pickle序列化为字节类型，所以写脚本尝试验证：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-2.png" referrerpolicy="no-referrer" alt="l1-2"></div></p></li><li><p><span>成功反序列化出命令。重新写脚本，将需要执行的系统命令序列化并编码：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-3.png" referrerpolicy="no-referrer" alt="l1-3"></div></p></li><li>Python脚本源码下载：<a href="assist/l1-pickle.py" target="_blank">pickle序列化与反序列化脚本</a></li><li><p><span>将生成的字符串编码放入请求包重新执行，成功执行命令：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-4.png" referrerpolicy="no-referrer" alt="l1-4"></div></p></li></ol>
+            </div>
+        </div>
+        <div class="card card-info card-outline" id="showSource">
+            <div class="card-header">
+                <h3 class="card-title"><strong>源码解析</strong></h3>
+            </div>
+            <div class="card-body">
+              <ul style="margin-bottom: 0;"><li>在进行序列化和反序列化的过程中，尽量避免使用从外部接收的不可信数据，否则会带来严重的安全风险：</li></ul>
+              <div class="card-body" style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sCode-1.html" width="100%" height="445px"></object></div>
+          </div>
+        </div>
+        <div class="card card-orange card-outline" id="repository">
+            <div class="card-header">
+                <h3 class="card-title"><strong>知识梳理</strong></h3>
+            </div>
+            <div class="card-body">
+              <div style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sum-1.html" width="100%" height="3430px"></object></div>
+            </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<aside class="control-sidebar control-sidebar-dark">
+  <!-- Control sidebar content goes here -->
+</aside>
+<footer class="main-footer"></footer>
+<script src="../../dist/js/templateHandle.js"></script>
+<script>
+  setWrapperHeader("Python反序列化", ["pickle反序列化"]);
+</script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="../../dist/js/adminlte.js"></script>
+<script>
+  function fetchProcessInfo() {
+  $.ajax({
+    url: 'http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/unserialize/l1/pickle',
+    type: 'POST',
+    contentType: 'application/x-www-form-urlencoded',
+    data: 'command=gASVDwAAAAAAAACMC3RvcCAtYiAtbiAxlC4=',
+    success: function(response) {
+      if (response.status === "200") {
+        $('#shellPanel').text(response.msg);
+      } else {
+        $("#notice")[0].innerHTML = generateNote(response.msg);
+      }
+    },
+    error: function(error) {
+      console.error('Error:', error);
+    }
+  });
+}
+
+// 每五秒钟刷新一次
+setInterval(fetchProcessInfo, 5000);
+
+// 页面加载时立即执行一次
+fetchProcessInfo();
+
+</script>
+</body>
+</html>

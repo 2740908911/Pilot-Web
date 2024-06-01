@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SQL注入-概述</title>
+    <link rel="stylesheet"
+          href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>概述</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="markdown prose w-full break-words dark:prose-invert light">
+                            <p>SQL注入（SQL Injection）是一种常见的Web安全漏洞，攻击者在输入的字符串之中注入SQL指令，在设计不良的程序当中忽略了字符检查，那么这些注入进去的恶意指令就会被数据库服务器误认为是正常的SQL指令而执行，因此遭到破坏或是入侵。</p>
+                            <p>通常，SQL注入攻击发生的原因是开发人员没有对用户输入的数据进行充分验证或过滤，或者使用了不安全的SQL查询方法。攻击者可以通过输入特定的字符串或符号来欺骗程序，从而注入恶意的SQL语句。</p>
+                            <p>攻击者可以利用SQL注入漏洞实现以下恶意行为：</p>
+                            <ol>
+                                <li><p>获取数据库访问权限，甚至获得DBA权限，从而获取数据库中的所有数据，造成信息泄漏；（可获取数据）</p></li>
+                                <li><p>对数据库的数据进行增加、删除、修改操作，例如删除数据库中重要数据的表（可进行增删改操作）</p></li>
+                                <li><p>通过构造特殊的数据库语句，可操作数据库进入后台或者插入木马，以获取整个网站和数据库的控制权限，篡改网页，发布不良信息等；（可获取网站权限）</p></li>
+                                <li><p>获取服务器最高权限，远程控制服务器，甚至导致局域网(内网)被入侵；（可获取服务器权限）</p></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <footer class="main-footer"></footer>
+    <script src="../../dist/js/templateHandle.js"></script>
+    <script>
+        setWrapperHeader("SQL注入", ["概述"]);
+    </script>
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="../../dist/js/adminlte.js"></script>
+</body>
+</html>

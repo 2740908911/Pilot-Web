@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Python反序列化-概述</title>
+    <link rel="stylesheet"
+          href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>概述</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="markdown prose w-full break-words dark:prose-invert light">
+                            <p>不安全的反序列化是指在反序列化过程中存在潜在安全风险的情况，如果序列化的内容可控，在传递给应用进行反序列化时，可能会导致执行恶意代码或触发其他不受控制的行为。</p>
+                            <p>以下是一些常见的不安全反序列化的情况：</p>
+                            <ol>
+                                <li><p>受限制的反序列化：如果反序列化操作没有适当的验证和限制，允许任意的序列化数据被反序列化，攻击者可以构造恶意的序列化数据来执行恶意代码。</p></li>
+                                <li><p>未经过滤的输入：如果反序列化操作接受未经过滤的输入数据，攻击者可以通过构造特定的恶意数据来执行命令或导致不受控制的行为。</p></li>
+                                <li><p>自定义的反序列化逻辑：如果使用自定义的反序列化逻辑而不是使用安全的序列化库或框架，可能会导致安全问题。自定义逻辑可能缺乏必要的安全验证和过滤步骤，从而容易受到攻击。</p></li>
+                                <li><p>恶意的序列化数据：如果攻击者能够在反序列化操作中提供恶意构造的序列化数据，可能会导致命令执行或其他不受控制的行为。</p></li>
+                            </ol>
+                            <p>反序列化漏洞可能会产生以下危害：</p>
+                            <ol>
+                                <li><p>远程代码执行：攻击者可以通过构造恶意序列化数据注入和执行任意代码，从而完全控制目标系统，并执行恶意操作。</p></li>
+                                <li><p>远程命令执行：攻击者可以通过反序列化漏洞在目标系统上执行远程命令，从而对其他系统或网络资源造成进一步的威胁。</p></li>
+                                <li><p>信息泄露：攻击者可以利用反序列化漏洞读取和获取目标系统中的敏感信息，例如数据库凭据、用户密码、加密密钥等。</p></li>
+                                <li><p>拒绝服务（DoS）攻击：攻击者可以发送恶意序列化数据来触发异常或消耗过多的系统资源，导致系统崩溃或无法提供正常的服务。</p></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<footer class="main-footer"></footer>
+<script src="../../dist/js/templateHandle.js"></script>
+<script>
+    setWrapperHeader("Python反序列化", ["概述"]);
+</script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="../../dist/js/adminlte.js"></script>
+</body>
+</html>

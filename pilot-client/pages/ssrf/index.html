@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SSRF-概述</title>
+    <link rel="stylesheet"
+          href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>概述</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="markdown prose w-full break-words dark:prose-invert light">
+                            <p>SSRF（Server-Side Request Forgery，服务器端请求伪造）是一种由攻击者构造请求，利用服务器端发起请求的安全漏洞。一般情况下，SSRF攻击的目标是外网无法访问的内部系统（正因为请求是由服务器端发起的，所以服务器能请求到与自身相连而外网隔离的内部系统）。</p>
+                            <p>SSRF漏洞的形成大多是由于服务端提供了从其他服务器应用发起请求获取数据的功能，但没有对目标地址做过滤与限制；攻击者可以任意修改获取数据的地址，向指定的URL地址发起请求，获取网页文本内容，加载指定地址的图片等，利用的是服务端的请求伪造。</p>
+                            <p>SSRF的最大的危害在于穿透了网络边界，但具体能做到哪种程度还需要根据业务环境来判断:</p>
+                            <ol>
+                                <li><p>扫描内网，获取端口开放情况、banner信息等</p></li>
+                                <li><p>对内网的一些系统进行攻击，如SQL注入</p></li>
+                                <li><p>读取任意文件</p></li>
+                                <li><p>……</p></li>
+                            </ol>
+                            <p>简而言之：SSRF利用存在缺陷的Web应用作为代理攻击远程和本地的服务器。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<footer class="main-footer"></footer>
+<script src="../../dist/js/templateHandle.js"></script>
+<script>
+    setWrapperHeader("SSRF服务器端请求伪造", ["概述"]);
+</script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="../../dist/js/adminlte.js"></script>
+</body>
+</html>

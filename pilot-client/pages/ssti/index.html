@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SSTI模板注入-概述</title>
+    <link rel="stylesheet"
+          href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>概述</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="markdown prose w-full break-words dark:prose-invert light"><p>SSTI（Server-Side Template Injection）是一种常见的Web应用程序漏洞，攻击者可以通过SSTI漏洞在Web应用程序中注入恶意模板代码，从而执行任意的命令或者获取敏感信息。</p>
+                            <p>漏洞成因是服务端接收了攻击者的恶意输入以后，未经任何处理就将其作为Web应用模板内容的一部分，模板引擎在进行目标编译渲染的过程中(一般可以执行各种表达式)，执行了攻击者插入的可以破坏模板结构的语句(恶意Payload)，因而可能导致了敏感信息泄露、代码执行、GetShell等问题。其影响范围主要取决于模版引擎的复杂性。</p>
+                            <p>不同代码的后端程序会采用不同的模板引擎，而各个模板引擎注入的语法也有不同。一种常见的方法是使用来自不同模板引擎的语法注入任意数学运算，根据返回的结果来判断，有一张出圈的决策树图如下：</p>
+                            <div class="card col-md-6 col-lg-8 col-xl-8 ">
+                                <img class="card-img-top" src="assist/ssti-1.jpg" >
+                            </div>
+                            <p>由于本靶场使用Python Flask编写，所以只模拟了基于jinja2模板的SSTI漏洞。除此之外Python还有类似Django、Mako等较为知名的模板会产生SSTI漏洞。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<footer class="main-footer"></footer>
+<script src="../../dist/js/templateHandle.js"></script>
+<script>
+    setWrapperHeader("SSTI模板注入", ["概述"]);
+</script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="../../dist/js/adminlte.js"></script>
+</body>
+</html>
