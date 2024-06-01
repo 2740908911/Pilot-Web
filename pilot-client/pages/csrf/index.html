@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CSRF跨站请求伪造</title>
+    <link rel="stylesheet"
+          href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>概述</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="markdown prose w-full break-words dark:prose-invert light">
+                            <p>跨站请求伪造（Cross-site request forgery），也被称为 one-click attack ，通常缩写为 CSRF 或者 XSRF， 是一种挟制用户在当前已登录的Web应用程序上执行非本意的操作的攻击方法。跟跨站脚本XSS相比，XSS利用的是用户对指定网站的信任，CSRF利用的是网站对用户网页浏览器的信任。</p>
+                            <p>CSRF攻击可以造成的危害包括但不限于：修改用户信息、发起转账、删除数据、发表评论等。</p>
+                            <p>CSRF攻击通常包括以下步骤：</p>
+                            <ol>
+                                <li><p>攻击者构造一个恶意网页，其中包含一个指向目标网站的请求，如一个图片、链接或表单。</p>
+                                </li>
+                                <li><p>
+                                    用户在已经登录的目标网站中打开了恶意网页，浏览器自动向目标网站发送了一个请求，这个请求被目标网站认为是合法的，并且被执行。</p>
+                                </li>
+                                <li><p>目标网站根据用户的身份认证状态，处理了这个伪造请求，导致攻击者实现了攻击目的。</p>
+                                </li>
+                            </ol>
+                            <p>简单来说，CSRF就是你点击我构造的恶意链接，我就可以以你的名义去发起一个http请求。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <footer class="main-footer"></footer>
+    <script src="../../dist/js/templateHandle.js"></script>
+    <script>
+        setWrapperHeader("CSRF跨站请求伪造", ["概述"]);
+    </script>
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="../../dist/js/adminlte.js"></script>
+</body>
+</html>

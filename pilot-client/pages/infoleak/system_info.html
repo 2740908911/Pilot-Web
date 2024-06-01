@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>敏感信息泄露-系统信息泄露</title>
+    <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div id="notice"></div>
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>系统信息泄露</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="card card-primary">
+                            <blockquote>
+                                <p>本页面包含三个泄露了系统相关信息的漏洞！可以点击右上角<strong>[知识梳理]</strong>查看漏洞分类喔！</p>
+                            </blockquote>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="float: right;" onclick="skip()">先去下一关</button>
+                    </div>
+                </div>
+                <div class="card card-warning card-outline" id="hint">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>思路提示</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <ul><li>如果不做好系统信息搜集，那么漏洞挖掘会事倍功半！</li><br>
+                                <li>随便翻翻吧，信息的泄露都是不经意间的~</li></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-success card-outline" id="writeUp">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>正确实现</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <ol start=""><li><p><span>进入漏洞页面后抓包，并点击页面中唯一按钮</span><strong><span>先去下一关</span></strong><span>，发现向服务端发送了一条GET请求：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-1.png" referrerpolicy="no-referrer" alt="l1-1"></div></p></li><li><p><span>根据响应包提示，在参数</span><code>param</code><span>处输入字符</span><code>'</code><span>：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-2.png" referrerpolicy="no-referrer" alt="l1-2"></div></p></li><li><p><span>可以发现接口返回状态500，并爆出一条数据库错误，此处泄漏了后端SQL信息。在拦截出修改参数并放包：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-3.png" referrerpolicy="no-referrer" alt="l1-3"></div></p></li><li><p><span>找到了第一个系统信息泄露点。</span></p></li><li><p><span>在BurpSuite，HTTP历史记录里，通过信息扫描插件（如Hae、FinfoX等）或JS审计，可以发现一条JS请求泄露了内网IP，该IP可能是WEB服务器内网下的其他主机：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-4.png" referrerpolicy="no-referrer" alt="l1-4"></div></p></li><li><p><span>找到了第二个系统信息泄漏点。</span></p></li><li><p><span>考虑到系统信息泄露的方式，对网页目录进行扫描，看是否存在备份文件或其他泄露文件。</span></p></li><li><p><span>此处使用Bp进行扫描，您也可以使用专门的目录扫描器，在爆破模块中加入变量并导入备份文件字典：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-5.png" referrerpolicy="no-referrer" alt="l1-5"></div></p></li><li><p><span>扫描到存在</span><code>1.zip</code><span>，该网站可能存在备份文件：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-6.png" referrerpolicy="no-referrer" alt="l1-6"></div></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-7.png" referrerpolicy="no-referrer" alt="l1-7"></div></p></li><li><p><span>找到了第三个系统信息泄露点。</span></p></li></ol>
+                    </div>
+                </div>
+                <div class="card card-info card-outline" id="showSource">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>源码解析</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <ul style="margin-bottom: 0;"><li>注意该接口，会将抛出的异常信息回调到响应中，致使系统信息泄露：</li></ul>
+                        <div class="card-body" style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sCode-1.html" width="100%" height="490px"></object></div>
+                    </div>
+                </div>
+                <div class="card card-orange card-outline" id="repository">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>知识梳理</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sum-1.html" width="100%" height="2100px"></object></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<footer class="main-footer"></footer>
+<script src="../../dist/js/templateHandle.js"></script>
+<script>
+    setWrapperHeader("敏感信息泄露", ["系统信息泄露"]);
+</script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="../../dist/js/adminlte.js"></script>
+<script src="system_info.js"></script>
+<script>
+    function skip(){
+        $("#notice")[0].innerHTML = generateNote("少年，不能急于求成，要不再看看？");
+        $.get({
+            url: `http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/il/l1/getNext1?param=1`,
+            dataType: "json",
+            success(resp){
+                if(resp["status"] === "500"){
+                    $.get({
+                        url: `http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/il/l1/getNext2`,
+                        dataType: "json"
+                    })
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

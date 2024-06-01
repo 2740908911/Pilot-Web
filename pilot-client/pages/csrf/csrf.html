@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSRF跨站请求伪造-CSRF</title>
+  <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+  <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+  <div class="content-wrapper" id="Wrapper">
+    <section class="content-header" id="WrapperHeader"></section>
+    <section class="content">
+      <div class="container-fluid">
+        <div id="notice"></div>
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><strong>CSRF</strong></h3>
+          </div>
+          <div class="card-body">
+            <div class="card card-primary">
+              <div class="card-header" id="LoginT">
+                <h3 class="card-title">后台登录</h3>
+              </div>
+              <form action="" onsubmit="return false" id="Login">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Enter username or phone number">
+                  </div>
+                  <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button type="submit" id="loginButton" class="btn btn-primary" onclick="doLogin()">登录</button>
+                </div>
+              </form>
+            </div>
+            <div class="card card-primary">
+              <div class="card-header" id="UserInfoTitle" style="display: none;">
+                <h3 class="card-title">用户信息</h3>
+              </div>
+              <div class="card-body" id="UserInfo" style="display: none;">
+                <div class="form-group">
+                  <label for="displayPid">工号</label>
+                  <input type="text" class="form-control" id="displayPid" readonly>
+                </div>
+                <div class="form-group">
+                  <label for="displayUsername">用户名</label>
+                  <input type="text" class="form-control" id="displayUsername" readonly>
+                </div>
+                <div class="form-group">
+                  <label for="displayPhone">手机号</label>
+                  <input type="tel" class="form-control" id="displayPhone">
+                </div>
+                <div class="form-group">
+                  <label for="displayQQ">QQ号</label>
+                  <input type="text" class="form-control" id="displayQQ">
+                </div>
+                <button id="updateUserInfoButton" class="btn btn-primary">确认修改</button>
+                <button id="logoutButton" class="btn btn-primary">返回登录</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card card-warning card-outline" id="hint">
+            <div class="card-header">
+                <h3 class="card-title"><strong>思路提示</strong></h3>
+            </div>
+            <div class="card-body">
+                <div>
+                  <ul><li>一道经典的面试题：XSS和CSRF在攻击原理、利用方式和漏洞修复上有什么区别？</li></ul>
+                </div>
+            </div>
+        </div>
+        <div class="card card-success card-outline" id="writeUp">
+            <div class="card-header">
+                <h3 class="card-title"><strong>正确实现</strong></h3>
+            </div>
+            <div class="card-body">
+              <ol start=""><li><p><span>进入漏洞页面，登录</span><code>admin</code><span>账号：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-1.png" referrerpolicy="no-referrer" alt="l1-1"></div></p></li><li><p><span>抓包，点击</span><strong><span>确认修改</span></strong><span>按钮：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-2.png" referrerpolicy="no-referrer" alt="l1-2"></div></p></li><li><p><span>发现是GET请求；删除请求头中</span><code>Referer和Origin</code><span>字段，不影响发包；且认证信息通过Cookie存储，而不是Token，很容易造成GET型的CSRF。</span></p></li><li><p><span>在Burp中右键请求包，选择相关工具中的生产CSRF POC，修改参数</span><code>phone</code><span>的值为114514，点击在浏览器中测试：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-3.png" referrerpolicy="no-referrer" alt="l1-3"></div></p></li><li><p><span>复制链接后，在第一步登录admin后的浏览器页面中打开，发现修改成功：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-4.png" referrerpolicy="no-referrer" alt="l1-4"></div></p></li><li><p><span>回到漏洞页面，重新登录后，发现数据已经被修改：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-5.png" referrerpolicy="no-referrer" alt="l1-5"></div></p></li></ol>
+            </div>
+        </div>
+        <div class="card card-info card-outline" id="showSource">
+            <div class="card-header">
+                <h3 class="card-title"><strong>源码解析</strong></h3>
+            </div>
+            <div class="card-body">
+              <ul style="margin-bottom: 0;"><li>在使用Cookie进行身份判断时，未对referer信息进行验证，未添加防止CSRF的Token，且没有设置HttpOnly标志：</li></ul>
+              <div class="card-body" style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sCode-1.html" width="100%" height="605px"></object></div>
+          </div>
+        </div>
+        <div class="card card-orange card-outline" id="repository">
+            <div class="card-header">
+                <h3 class="card-title"><strong>知识梳理</strong></h3>
+            </div>
+            <div class="card-body">
+              <div style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sum-1.html" width="100%" height="1900px"></object></div>
+            </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<aside class="control-sidebar control-sidebar-dark">
+  <!-- Control sidebar content goes here -->
+</aside>
+<footer class="main-footer"></footer>
+<script src="../../dist/js/templateHandle.js"></script>
+<script>
+  setWrapperHeader("CSRF跨站请求伪造", ["CSRF"]);
+</script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="../../dist/js/adminlte.js"></script>
+<script>
+  function doLogin(){
+    let data = {
+      username: $("#username")[0].value,
+      password: $("#password")[0].value,
+    }
+    $.post({
+      url: `http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/csrf/l1/login`,
+      data,
+      dataType: "json",
+      success(resp){
+        if(resp["status"] === "200"){
+          $("#notice")[0].innerHTML = generateNote("登录成功！欢迎, " + resp["username"]);
+          setCookie('token', resp['token'], 1); // 假设我们设置cookie有效期为1天
+          fetchUserInfoData();
+        } else if(resp["status"] === "405"){
+          $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+        } else if(resp["status"] === "401"){
+          $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        // 添加错误处理
+        $("#notice")[0].innerHTML = generateNote("发生错误：" + textStatus + ", " + errorThrown);
+      }
+    })
+}
+
+function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+
+  function fetchUserInfoData() {
+    $.ajax({
+      url: 'http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/csrf/l1/getUserinfo',
+      type: 'GET', 
+      xhrFields: {
+        withCredentials: true // 确保请求时携带cookie
+      },
+      success: function(response) {
+        if (response.status === "403") {
+          $("#notice")[0].innerHTML = generateNote("Token过期或错误，请重新登录");
+        } else if (response.status === "200") {
+          $("#LoginT").hide();
+          $("#Login").hide();
+          populateUserTable(response.msg);
+        }
+      },
+      error: function() {
+        $("#notice")[0].innerHTML = generateNote("数据获取失败，请稍后重试");
+      }
+    });
+  }
+
+  function populateUserTable(data) {
+    $("#UserInfoTitle").show();
+    $("#UserInfo").show();
+    var userData = data[0];
+    // 填充用户数据到表单中
+    $("#displayPid").val(userData.PID); // 工号
+    $("#displayUsername").val(userData.USERNAME); // 用户名
+    $("#displayPhone").val(userData.PHONE); // 手机号
+    $("#displayQQ").val(userData.QQ); // QQ号
+  }
+
+  function updateUserInfo() {
+    // 从输入字段中收集数据
+    let updatedData = {
+      phone: $("#displayPhone").val(),
+      qq: $("#displayQQ").val()
+    };
+
+    $.ajax({
+      type: 'GET',
+      url: 'http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/csrf/l1/modifyUserInfo', // 修改为您的API端点
+      data: updatedData, // 发送更新的用户信息
+      xhrFields: {
+        withCredentials: true // 确保请求时携带cookie
+      },
+      success: function(response) {
+        // 根据返回的状态处理响应
+        if (response.status === "200") {
+          $(document).Toasts('create', {
+            class: 'bg-success',
+            title: 'SUCCESS',
+            autohide: true,
+            delay: 4000,
+            body: '修改成功！'
+          });
+          fetchUserInfoData();
+        } else if (response.status === "403" || response.status === "400") {
+          $(document).Toasts('create', {
+            class: 'bg-warning',
+            title: 'WARNING',
+            autohide: true,
+            delay: 4000,
+            body: '权限认证失败或权限不足，请重新登录！'
+          });
+        } else {
+          $(document).Toasts('create', {
+            class: 'bg-danger',
+            title: 'ERROR',
+            autohide: true,
+            delay: 4000,
+            body: ' 修改失败，请稍后重试…… '
+          });
+        }
+      },
+      error: function() {
+        $(document).Toasts('create', {
+          class: 'bg-danger',
+          title: 'ERROR',
+          autohide: true,
+          delay: 4000,
+          body: ' 修改失败，请稍后重试…… '
+        });
+      }
+    });
+  }
+
+  // 在文档加载完毕后绑定按钮点击事件
+  $(document).ready(function() {
+    // 绑定更新按钮的点击事件
+    $("#updateUserInfoButton").click(function() {
+      updateUserInfo(); // 调用更新用户信息的函数
+    });
+  });
+
+  function logout() {
+
+    // 清空表单输入
+    $("#username").val('');
+    $("#password").val('');
+
+    // 显示登录表单
+    $("#LoginT").show();
+    $("#Login").show();
+
+    // 隐藏用户信息表单
+    $("#UserInfo").hide();
+    $("#UserInfoTitle").hide();
+
+    // 清除通知
+    $("#notice").html('');
+  }
+
+  // 在文档加载完毕后绑定注销按钮的点击事件
+  $(document).ready(function() {
+    // 绑定确认修改按钮的点击事件
+    $("#updateUserInfoButton").click(function() {
+      updateUserInfo();
+    });
+
+    // 绑定注销按钮的点击事件
+    $("#logoutButton").click(function() {
+      logout();
+    });
+  });
+</script>
+</body>
+</html>

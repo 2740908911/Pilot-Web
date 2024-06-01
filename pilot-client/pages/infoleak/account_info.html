@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>敏感信息泄露-账户信息泄露</title>
+    <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div id="notice"></div>
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>账户信息泄露</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="card card-primary">
+                            <blockquote>
+                                <p>本页面包含了一个泄露个人账户相关信息的漏洞！可以点击右上角<strong>[知识梳理]</strong>查看漏洞分类喔！</p>
+                            </blockquote>
+                        </div>
+                        <div class="card card-secondary">
+                            <div class="card-header">
+                                <h3 class="card-title">管理员登录</h3>
+                            </div>
+                            <form action="" onsubmit="return false" id="Login">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="username">用户名</label>
+                                        <input type="text" class="form-control" name="username" id="username" placeholder="Enter username or phone number">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">密码</label>
+                                        <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                                    </div>
+                                </div>
+                                <!-- 后端临时测试账号：pilottest123/fanqie@123 -->
+                                <div class="card-footer">
+                                    <button type="submit" id="loginButton" class="btn btn-primary" onclick="doLogin()">登录</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-warning card-outline" id="hint">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>思路提示</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <ul><li>注意登录口的颜色与前面不同喔！！</li></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-success card-outline" id="writeUp">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>正确实现</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <ol start=""><li><p><span>进入漏洞页面，可以注意到此处的登陆口不同于前面部分，尝试登录系统存在账号，发现无法登录：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l3-1.png" referrerpolicy="no-referrer" alt="l3-1"></div></p></li><li><p><span>根据漏洞名，可以判断账户信息可能通过某处泄露。对该页面抓包检查：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l3-2.png" referrerpolicy="no-referrer" alt="l3-2"></div></p></li><li><p><span>在HTML页面中，发现了注释遗留的测试账号信息，可以成功进行登录：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l3-3.png" referrerpolicy="no-referrer" alt="l3-3"></div></p></li></ol>
+                    </div>
+                </div>
+                <div class="card card-info card-outline" id="showSource">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>源码解析</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <ul style="margin-bottom: 0;"><li>F12或右键查看本题源代码</li></ul>
+                    </div>
+                </div>
+                <div class="card card-orange card-outline" id="repository">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>知识梳理</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sum-3.html" width="100%" height="1280px"></object></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<footer class="main-footer"></footer>
+<script src="../../dist/js/templateHandle.js"></script>
+<script>
+    setWrapperHeader("敏感信息泄露", ["账户信息泄露"]);
+</script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="../../dist/js/adminlte.js"></script>
+<script>
+    function doLogin(){
+        let data = {
+            username: $("#username")[0].value,
+            password: $("#password")[0].value,
+        }
+        $.post({
+            url: `http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/il/l3/login`,
+            data,
+            dataType: "json",
+            success(resp){
+                if(resp["status"] === "200"){
+                    $("#notice")[0].innerHTML = generateNote("登录成功！欢迎, " + resp["username"]);
+                    $("#loginButton").prop('disabled', true);
+                } else if(resp["status"] === "405"){
+                    $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+                } else if(resp["status"] === "401"){
+                    $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // 添加错误处理
+                $("#notice")[0].innerHTML = generateNote("发生错误：" + textStatus + ", " + errorThrown);
+            }
+        })
+    }
+</script>
+</body>
+</html>

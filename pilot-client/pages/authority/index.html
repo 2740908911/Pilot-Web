@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>权限控制-概述</title>
+    <link rel="stylesheet"
+          href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>概述</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="markdown prose w-full break-words dark:prose-invert light">
+                            <p>权限控制篇整合了两大类漏洞：越权漏洞和未授权漏洞，下面将分别介绍：</p>
+                            <p>越权漏洞是指应用程序未对当前用户操作的身份权限进行严格校验，导致用户可以操作超出自己管理权限范围的功能，从而操作一些非该用户可以操作的行为。简单来说，就是攻击者可以做一些本来不该他们做的事情（增删改查）。</p>
+                            <p>越权漏洞通常可以通过以下几种方式进行分类：</p>
+                            <ol>
+                                <li><p>横向越权：攻击者利用受害者账号的权限来访问其他同级别账号的数据或系统资源。</p></li>
+                                <li><p>纵向越权：攻击者利用低权限账号或匿名账号通过漏洞攻击系统，提升自己的权限，从而访问高权限账号的数据或系统资源。</p></li>
+                            </ol>
+                            <p>未授权漏洞是指在未登录且获知业务功能页面的访问地址前提下，可直接操作该页面下的特定功能。与越权不同，未授权访问漏洞集中在“未经授权的访问”，而越权漏洞关注于“超出已授权的访问范围”。</p>
+                            <p>需要注意的是，未授权访问漏洞和越权漏洞都涉及到安全权限控制的问题，但它们在细节上有所不同。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<footer class="main-footer"></footer>
+<script src="../../dist/js/templateHandle.js"></script>
+<script>
+    setWrapperHeader("权限控制", ["概述"]);
+</script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="../../dist/js/adminlte.js"></script>
+</body>
+</html>

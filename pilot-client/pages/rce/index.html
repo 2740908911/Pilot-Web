@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RCE-概述</title>
+    <link rel="stylesheet"
+          href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>概述</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="markdown prose w-full break-words dark:prose-invert light">
+                            <p>命令执行漏洞是指攻击者通过注入恶意命令来执行非预期的操作，一般发生在使用用户输入构建系统命令或Shell命令的情况下；简单来说就是没有对用户输入的内容充分的验证或过滤，而直接带入到命令执行函数中当成系统化命令被执行。<p>
+                            <p>RCE命令执行漏洞可能会导致以下危害：</p>
+                            <ol>
+                                <li><p>执行任意系统命令，可能导致系统被完全控制。</p></li>
+                                <li><p>敏感信息泄露，如密码、数据库内容等。</p></li>
+                                <li><p>对系统进行拒绝服务（DoS）攻击。</p></li>
+                                <li><p>执行恶意代码，如安装后门、植入恶意软件等，进行APT攻击。</p></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <footer class="main-footer"></footer>
+    <script src="../../dist/js/templateHandle.js"></script>
+    <script>
+        setWrapperHeader("RCE远程命令执行", ["概述"]);
+    </script>
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="../../dist/js/adminlte.js"></script>
+</body>
+</html>

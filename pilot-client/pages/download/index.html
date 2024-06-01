@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>文件下载-概述</title>
+    <link rel="stylesheet"
+          href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>概述</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="markdown prose w-full break-words dark:prose-invert light">
+                            <p>一些网站由于业务需要，可能提供文件查看或下载的功能，如果对用户查看或下载的文件不做限制，攻击者就能够通过回溯符../或绝对路径跳转到任意目录查看或下载任意的文件；这可能是代码源文件，敏感配置文件等等，在特定的场景下，还可能造成SSRF漏洞。</p>
+                            <p>一般情况下，攻击者可利用的文件有以下几种：</p>
+                            <ol>
+                                <li><p>查看常规的配置文件，如ssh、数据库、ftp等</p></li>
+                                <li><p>查看常规的包含敏感信息的文件，如各用户的.bash_history等</p></li>
+                                <li><p>查看网站日志access.log，找找网站后台、用户密码、别人的shell等</p></li>
+                                <li><p>对Web应用程序进行安全漏洞扫描和渗透测试，及时发现和修复漏洞。</p></li>
+                                <li><p>查看源代码进行审计</p></li>
+                            </ol>
+                            <p>总体来说，就是到处翻文件，找对我们渗透有帮助的文件获取信息即可。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <footer class="main-footer"></footer>
+    <script src="../../dist/js/templateHandle.js"></script>
+    <script>
+        setWrapperHeader("文件下载", ["概述"]);
+    </script>
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="../../dist/js/adminlte.js"></script>
+</body>
+</html>

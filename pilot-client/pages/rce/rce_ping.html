@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RCE-拼接命令执行</title>
+  <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+  <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+  <div class="content-wrapper" id="Wrapper">
+    <section class="content-header" id="WrapperHeader"></section>
+    <section class="content">
+      <div class="container-fluid">
+        <div id="notice"></div>
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><strong>拼接命令执行</strong></h3>
+          </div>
+          <div class="card-body">
+            <div class="card card-primary" style="margin-left: 60px;margin-right: 60px;">
+              <div class="card-header">
+                <h3 class="card-title">服务器连通测试：PING</h3>
+              </div>
+              <form action="" onsubmit="return false;">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="ip">输入IP地址开始测试：</label>
+                    <input type="text" class="form-control" id="ip" placeholder="Enter ip">
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary" onclick="doPing()">执行</button>
+                </div>
+              </form>
+            </div>
+            <div class="card card-secondary" id="shellPanel" style="margin-left: 60px;margin-right: 60px;">
+              <div class="card-header">
+                <h3 class="card-title">PING测试 -- Ubuntu 22.04.3 LTS (GNU/Linux 5.15.90.1-microsoft-standard-WSL2 x86_64)</h3>
+              </div>
+              <div id="shell" style="background-color: #000; color: #fff; font-family: 'Courier New', monospace; height: 200px; overflow-y: auto; white-space: pre;padding-left: 4ch;">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card card-warning card-outline" id="hint">
+            <div class="card-header">
+                <h3 class="card-title"><strong>思路提示</strong></h3>
+            </div>
+            <div class="card-body">
+                <div>
+                  <ul><li>要不咱先进阶一下Linux命令基础！？</li></ul>
+                </div>
+            </div>
+        </div>
+        <div class="card card-success card-outline" id="writeUp">
+            <div class="card-header">
+                <h3 class="card-title"><strong>正确实现</strong></h3>
+            </div>
+            <div class="card-body">
+              <ol start=""><li><p><span>进入漏洞页面，抓包并刷入本地回环地址，尝试PING：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l2-1.png" referrerpolicy="no-referrer" alt="l2-1"></div></p></li><li><p><span>直接返回了PING的结果，考虑直接执行了命令，在地址后对命令进行拼接：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l2-2.png" referrerpolicy="no-referrer" alt="l2-2"></div></p></li><li><p><span>管道符 | 将前一个命令的输出作为后一个命令的输入进行处理；两个管道符表示前一个命令执行成功则不执行后面的命令，因为ls无需接受输入，所以直接输出了ls的结果。</span></p></li></ol>
+            </div>
+        </div>
+        <div class="card card-info card-outline" id="showSource">
+            <div class="card-header">
+                <h3 class="card-title"><strong>源码解析</strong></h3>
+            </div>
+            <div class="card-body">
+              <ul style="margin-bottom: 0;"><li>一般来说，禁止将用户的传参未进行严格且安全的过滤处理就用作命令执行，接收不可信的数据会带来极大的安全风险：</li></ul>
+              <div class="card-body" style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sCode-2.html" width="100%" height="765px"></object></div>
+          </div>
+        </div>
+        <div class="card card-orange card-outline" id="repository">
+            <div class="card-header">
+                <h3 class="card-title"><strong>知识梳理</strong></h3>
+            </div>
+            <div class="card-body">
+              <div style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sum-1.html" width="100%" height="3000px"></object></div>
+            </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <footer class="main-footer"></footer>
+  <script src="../../dist/js/templateHandle.js"></script>
+  <script>
+    setWrapperHeader("RCE远程命令执行", ["拼接命令执行"]);
+  </script>
+  <script src="../../plugins/jquery/jquery.min.js"></script>
+  <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <script src="../../dist/js/adminlte.js"></script>
+  <script>
+    $('#shellPanel').hide();
+
+    function doPing(){
+      let data = {
+        ip: $("#ip")[0].value,
+      }
+      $.post({
+        url: `http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/rce/l2/ping`,
+        data,
+        dataType: "json",
+        success(resp){
+          if(resp["status"] === "200"){
+            $("#notice").hide();
+            $('#shellPanel').show();
+            $('#shell').text(resp.msg);
+          } else {
+            $("#notice")[0].innerHTML = generateNote(resp.msg);
+          }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          // 添加错误处理
+          $("#notice")[0].innerHTML = generateNote("发生错误：" + textStatus + ", " + errorThrown);
+        }
+      })
+    }
+  </script>
+</body>
+</html>

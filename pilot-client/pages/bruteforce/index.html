@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>暴力破解-概述</title>
+    <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>概述</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="markdown prose w-full break-words dark:prose-invert light">
+                            <p>暴力破解攻击（Brute Force Attack）是一种常见的密码攻击方法，这种攻击方式通过尝试所有可能的密码组合来找到正确的密码。通常，攻击者会使用自动化的脚本或工具来进行暴力破解攻击，从而加快密码破解的速度。当密码策略较弱时，这种攻击尤为有效。</p>
+                            <p>除了密码可爆破外，用户名和Token也是遭受暴力破解攻击的重灾区，但他们本质上与密码爆破无异，都是通过大批量对系统中存在信息进行匹配测试，来判断数据是否真实有效。</p>
+                            <p>以爆破密码为例，暴力破解攻击通常由以下步骤实现：</p>
+                            <ol>
+                                <li><p>
+                                    枚举可能的密码：攻击者首先会生成一份可能的密码字典。这份字典可能基于目标用户的个人信息（如生日、名字、身份证等），也可能包含网络常用密码列表或全范围的字符组合。</p>
+                                </li>
+                                <li><p>
+                                    尝试所有可能的密码组合：使用自动化工具，逐个尝试所有可能的密码组合，直到找到正确的密码为止。</p>
+                                </li>
+                                <li><p>
+                                    破解成功：一旦攻击者找到了正确的密码，就可以使用该密码访问目标账户，窃取敏感信息或者进行其他恶意行为。</p>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <aside class="control-sidebar control-sidebar-light">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <footer class="main-footer"></footer>
+    <script src="../../dist/js/templateHandle.js"></script>
+    <script>
+        setWrapperHeader("暴力破解", ["概述"]);
+    </script>
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="../../dist/js/adminlte.js"></script>
+</body>
+</html>

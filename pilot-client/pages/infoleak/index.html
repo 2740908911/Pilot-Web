@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>敏感信息泄露-概述</title>
+    <link rel="stylesheet"
+          href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>概述</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <p>由于网站管理员运维不当或设计缺陷，可能会将备份文件、数据库配置文件等敏感文件存放在WEB目录下公开访问，攻击者可以轻松地访问这些敏感文件，从而了解系统的配置细节、密码信息、数据库凭据等重要数据，扩大的攻击面。 </p>
+                            <p>信息泄漏的范围比较宽泛，危害取决于泄漏的哪些敏感数据，例如： </p>
+                            <ul>
+                                <li><p>泄漏个人信息： 当个人信息泄露时，攻击者可能获取用户的身份证号码、银行账号、密码等敏感数据，进而进行身份盗窃、恶意购物、虚假贷款申请等欺诈行为，给用户带来财务损失和信用受损的风险。</p></li>
+                                <li><p>泄漏网站备份文件： 当网站的备份文件泄露时，攻击者可能获取到网站的配置文件、敏感数据存储位置和访问凭证等信息。这意味着攻击者可以获得对网站的完全或部分控制权，进而进行恶意篡改、删除或添加恶意代码，破坏网站的正常运行、导致数据丢失、影响用户访问或利用网站进行其他不法行为。</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<footer class="main-footer"></footer>
+<script src="../../dist/js/templateHandle.js"></script>
+<script>
+    setWrapperHeader("敏感信息泄露", ["概述"]);
+</script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="../../dist/js/adminlte.js"></script>
+</body>
+</html>

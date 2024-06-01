@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>暴力破解-用户名枚举</title>
+    <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div id="notice"></div>
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>用户名枚举</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">后台登录</h3>
+                            </div>
+                            <form action="" onsubmit="return false" id="Login">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="username">用户名</label>
+                                        <input type="text" class="form-control" name="username" id="username" placeholder="Enter username or phone number">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">密码</label>
+                                        <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" id="loginButton" class="btn btn-primary" onclick="doLogin()">登录</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-warning card-outline" id="hint">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>思路提示</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <ul><li>输入常见的用户名试试吧，看看系统中有多少账号？！</li></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-success card-outline" id="writeUp">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>正确实现</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <ol start=""><li><p><span>登录表单随意输入用户名和密码，使用BurpSuite抓住后台登录数据包：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-1.png" referrerpolicy="no-referrer" alt="l1-1"></div></p></li><li><p><span>发现响应包提示”账号不存在“，修改</span><code>username</code><span>参数值为常见管理员账户：admin，并重新发包测试：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-2.png" referrerpolicy="no-referrer" alt="l1-2"></div></p></li><li><p><span>发现响应包变化为“密码错误”，说明账号已存在系统内不用注册。将数据包发送至爆破模块测试：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-3.png" referrerpolicy="no-referrer" alt="l1-3"></div></p></li><li><p><span>在</span><code>username</code><span>参数处添加变量，并设置payload为常见用户名和与系统相关的用户名，进行枚举测试：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-4.png" referrerpolicy="no-referrer" alt="l1-4"></div></p></li><li><p><span>通过长度排序，发现存在用户账号</span><code>admin</code><span>和</span><code>fanqie</code><span>。</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l1-5.png" referrerpolicy="no-referrer" alt="l1-5"></div></p></li><li><p><span>在最下方发现存在账号</span><code>pilot</code><span>，且成功碰撞弱口令密码</span><code>123456</code><span>。</span></p></li><li><p><span>该处还可通过手机号登录，因此同时存在用户手机号枚举问题。</span></p></li></ol>
+                    </div>
+                </div>
+                <div class="card card-info card-outline" id="showSource">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>源码解析</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <ul style="margin-bottom: 0;"><li>注意登录错误时的响应包：应该统一错误回显，而不是区分账号不存在或密码错误：</li></ul>
+                        <div class="card-body" style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sCode-1.html" width="100%" height="900px"></object></div>
+                    </div>
+                </div>
+                <div class="card card-orange card-outline" id="repository">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>知识梳理</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sum-1.html" width="100%" height="1170px"></object></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+    <aside class="control-sidebar control-sidebar-light">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <footer class="main-footer"></footer>
+    <script src="../../dist/js/templateHandle.js"></script>
+    <script>
+        setWrapperHeader("暴力破解", ["用户名枚举"]);
+    </script>
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="../../dist/js/adminlte.js"></script>
+    <script>
+        var ip = '{{ $IP }}';
+        console.log(ip);
+        function doLogin(){
+            let data = {
+                username: $("#username")[0].value,
+                password: $("#password")[0].value,
+            }
+            $.post({
+                url: `http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/bf/l1/login`,
+                data,
+                dataType: "json",
+                success(resp){
+                    if(resp["status"] === "200"){
+                        $("#notice")[0].innerHTML = generateNote("登录成功！欢迎, " + resp["username"]);
+                        $("#loginButton").prop('disabled', true);
+                    } else if(resp["status"] === "401"){
+                        $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+                    } else if(resp["status"] === "402"){
+                        $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+                    } else if(resp["status"] === "405"){
+                        $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // 添加错误处理
+                    $("#notice")[0].innerHTML = generateNote("发生错误：" + textStatus + ", " + errorThrown);
+                }
+            })
+        }
+    </script>
+</body>
+</html>

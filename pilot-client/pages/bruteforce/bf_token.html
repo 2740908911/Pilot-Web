@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>暴力破解-Token伪造</title>
+  <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+  <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+  <div class="content-wrapper" id="Wrapper">
+    <section class="content-header" id="WrapperHeader"></section>
+    <section class="content">
+      <div class="container-fluid">
+        <div id="notice"></div>
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><strong>Token伪造</strong></h3>
+          </div>
+          <div class="card-body">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">后台登录</h3>
+              </div>
+              <form action="" onsubmit="return false" id="Login">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Enter username or phone number">
+                  </div>
+                  <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button type="submit" id="loginButton" class="btn btn-primary" onclick="doLogin()">登录</button>
+                  <button type="button" class="btn btn-primary" onclick="verifyIdentity()">身份验证</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="card card-warning card-outline" id="hint">
+            <div class="card-header">
+                <h3 class="card-title"><strong>思路提示</strong></h3>
+            </div>
+            <div class="card-body">
+                <div>
+                  <ul><li>去了解一下什么是JSON Web Token(JWT)，和他可能存在的安全风险吧！</li></ul>
+                </div>
+            </div>
+        </div>
+        <div class="card card-success card-outline" id="writeUp">
+            <div class="card-header">
+                <h3 class="card-title"><strong>正确实现</strong></h3>
+            </div>
+            <div class="card-body">
+              <ol start=""><li><p><span>使用任意账号登录，并抓包。这里以账号密码</span><code>pilot/123456</code><span>为例：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l3-1.png" referrerpolicy="no-referrer" alt="l3-1"></div></p></li><li><p><span>在响应包中获得Token值。返回WEB页面，点击</span><strong><span>身份认证</span></strong><span>按钮并抓包：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l3-2.png" referrerpolicy="no-referrer" alt="l3-2"></div></p></li><li><p><span>可以成功验证登录账号身份为</span><code>pilot</code><span>。</span></p></li><li><p><span>修改参数</span><code>username</code><span>为管理员账号</span><code>admin</code><span>，尝试伪造身份：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l3-3.png" referrerpolicy="no-referrer" alt="l3-3"></div></p></li><li><p><span>提示Token过期或错误，说明Token信息与</span><code>username</code><span>参数传入的值不匹配，无法验证</span><code>admin</code><span>身份。</span></p></li><li><p><span>复制Token值至Token爆破工具</span><a href="https://github.com/brendan-rius/c-*jwt*-*cracker*"><span>jwtcracker</span></a><span>，尝试爆破密钥：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l3-4.png" referrerpolicy="no-referrer" alt="l3-4"></div></p></li><li><p><span>获得Token密钥为“1”，通过</span><a href="https://jwt.io/"><span>JWT官方网站</span></a><span>伪造Token：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l3-5.png" referrerpolicy="no-referrer" alt="l3-5"></div></p></li><li><p><span>复制修改后的Token，替换身份认证API中的Token值，再次验证：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l3-6.png" referrerpolicy="no-referrer" alt="l3-6"></div></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l3-7.png" referrerpolicy="no-referrer" alt="l3-7"></div></p></li><li><p><span>通过修改Token，成功伪造身份为</span><code>admin</code><span>。</span></p></li></ol>
+            </div>
+        </div>
+        <div class="card card-info card-outline" id="showSource">
+            <div class="card-header">
+                <h3 class="card-title"><strong>源码解析</strong></h3>
+            </div>
+            <div class="card-body">
+              <ul style="margin-bottom: 0;"><li>下面是Token模块代码，注意该模块定义的密钥难度过低，容易遭受爆破：</li></ul>
+              <div class="card-body" style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sCode-3.html" width="100%" height="1090px"></object></div> 
+          </div>
+        </div>
+        <div class="card card-orange card-outline" id="repository">
+            <div class="card-header">
+                <h3 class="card-title"><strong>知识梳理</strong></h3>
+            </div>
+            <div class="card-body">
+              <div style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sum-3.html" width="100%" height="1525px"></object></div>
+            </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <footer class="main-footer"></footer>
+  <script src="../../dist/js/templateHandle.js"></script>
+  <script>
+    setWrapperHeader("暴力破解", ["Token伪造"]);
+  </script>
+  <script src="../../plugins/jquery/jquery.min.js"></script>
+  <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <script src="../../dist/js/adminlte.js"></script>
+  <script>
+    var loginData = {
+      username: null,
+      token: null
+    };
+    function doLogin(){
+      let data = {
+        username: $("#username")[0].value,
+        password: $("#password")[0].value,
+      }
+      $.post({
+        url: `http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/bf/l3/login`,
+        data,
+        dataType: "json",
+        success(resp){
+          if(resp["status"] === "200"){
+            loginData.token = resp["token"]; // 从响应中获取token
+            loginData.username = resp["username"]; // 从响应中获取用户名
+            $("#notice")[0].innerHTML = generateNote("登录成功！欢迎, " + resp["username"]);
+            $("#loginButton").prop('disabled', true);
+          } else if(resp["status"] === "405"){
+            $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+          } else if(resp["status"] === "401"){
+            $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+          }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          // 添加错误处理
+          $("#notice")[0].innerHTML = generateNote("发生错误：" + textStatus + ", " + errorThrown);
+        }
+      })
+    }
+
+    function verifyIdentity(){
+      if (loginData.token && loginData.username) {
+        $.ajax({
+          url: `http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/bf/l3/verify`,
+          type: 'POST',
+          headers: {
+            'Authorization': loginData.token
+          },
+          data: { 'username': loginData.username },
+          dataType: "json",
+          success(resp){
+            if (resp["status"] === "200") {
+              alert("验证成功：当前登录用户是 " + resp["username"]);
+            } else if (resp["status"] === "403") {
+              alert("Token过期或错误，请重新登录");
+            } else if (resp["status"] === "405") {
+              alert("缺少参数，请先登录");
+            }
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            // 通常的错误处理
+            alert("验证请求失败：" + textStatus + ", " + errorThrown);
+          }
+        });
+      } else {
+        alert("缺少参数，请先登录");
+      }
+    }
+  </script>
+</body>
+</html>

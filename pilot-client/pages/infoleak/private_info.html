@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>敏感信息泄露-隐私信息泄露</title>
+    <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div id="notice"></div>
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>隐私信息泄露</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="card card-primary">
+                            <blockquote>
+                                <p>本页面存在一个泄露了隐私信息的漏洞！可以点击右上角<strong>[知识梳理]</strong>查看漏洞分类喔！</p>
+                            </blockquote>
+                        </div>
+                        <div class="card card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title"><strong>用户银行卡绑定信息</strong></h3>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>姓名</th>
+                                        <th>生日</th>
+                                        <th>手机号</th>
+                                        <th>银行卡号</th>
+                                        <th>地区</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="userData"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-warning card-outline" id="hint">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>思路提示</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <ul><li>所以你愿意让黑客获取自己的身份信息吗？</li></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-success card-outline" id="writeUp">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>正确实现</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <ol start=""><li><p><span>进入漏洞页面，发现此页展示了用户银行卡绑定信息，且对关键隐私信息进行了打码屏蔽：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l2-1.png" referrerpolicy="no-referrer" alt="l2-1"></div></p></li><li><p><span>抓包刷新页面，发现获取数据的接口，重放后发现接口并未对手机号和银行卡等信息打码：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l2-2.png" referrerpolicy="no-referrer" alt="l2-2"></div></p></li><li><p><span>因此可以分析，此处对隐私信息的打码位于客户端的JS代码中，只能起到掩耳盗铃的作用，无法保障隐私数据安全。</span></p></li></ol>
+                    </div>
+                </div>
+                <div class="card card-info card-outline" id="showSource">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>源码解析</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <ul style="margin-bottom: 0;"><li>隐私信息在前端使用JS进行打码加密，但通过抓取接口可直接获取隐私信息：</li></ul>
+                        <div class="card-body" style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sCode-2.html" width="100%" height="1040px"></object></div>
+                    </div>
+                </div>
+                <div class="card card-orange card-outline" id="repository">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>知识梳理</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sum-2.html" width="100%" height="1440px"></object></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<footer class="main-footer"></footer>
+<script src="../../dist/js/templateHandle.js"></script>
+<script>
+    setWrapperHeader("敏感信息泄露", ["隐私信息泄露"]);
+</script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="../../dist/js/adminlte.js"></script>
+<script>
+    function getUserinfo() {
+        $.get({
+            url: `http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/il/l2/getUserinfo`,
+            success(resp) {
+                if (resp && resp.status === "200" && Array.isArray(resp.msg)) {
+                    updateTable(resp.msg);
+                }
+            }
+        });
+    }
+
+    function updateTable(data) {
+        var tableBody = $('#userData');
+        tableBody.empty(); // 清空现有的数据
+
+        data.forEach(function(item, index) {
+            var row = $('<tr></tr>');
+            row.append($('<td></td>').text(item.ID));
+            row.append($('<td></td>').text(item.NAME));
+            row.append($('<td></td>').text(item.BIRTH));
+            row.append($('<td></td>').text(maskPhoneNumber(item.PHONE)));
+            row.append($('<td></td>').text(maskCreditNumber(item.CREDIT)));
+            row.append($('<td></td>').text(item.ADDRESS));
+            tableBody.append(row);
+        });
+    }
+
+    function maskPhoneNumber(phone) {
+        return phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+    }
+
+    function maskCreditNumber(credit) {
+        return credit.replace(/(\d{4})\d{8}(\d{4})/, '$1********$2');
+    }
+
+    getUserinfo();
+</script>
+</body>
+</html>

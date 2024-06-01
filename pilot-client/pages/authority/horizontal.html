@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>权限控制-水平越权</title>
+  <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+  <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+  <div class="content-wrapper" id="Wrapper">
+    <section class="content-header" id="WrapperHeader"></section>
+    <section class="content">
+      <div class="container-fluid">
+        <div id="notice"></div>
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><strong>水平越权</strong></h3>
+          </div>
+          <div class="card-body">
+            <div class="card card-primary">
+              <div class="card-header" id="LoginT">
+                <h3 class="card-title">后台登录</h3>
+              </div>
+              <form action="" onsubmit="return false" id="Login">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Enter username or phone number">
+                  </div>
+                  <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button type="submit" id="loginButton" class="btn btn-primary" onclick="doLogin()">登录</button>
+                </div>
+              </form>
+            </div>
+            <div class="card card-primary">
+              <div class="card-header" id="UserInfoTitle" style="display: none;">
+                <h3 class="card-title">用户信息</h3>
+              </div>
+              <div class="card-body" id="UserInfo" style="display: none;">
+                <div class="form-group">
+                  <label for="displayPid">工号</label>
+                  <input type="text" class="form-control" id="displayPid" readonly>
+                </div>
+                <div class="form-group">
+                  <label for="displayUsername">用户名</label>
+                  <input type="text" class="form-control" id="displayUsername" readonly>
+                </div>
+                <div class="form-group">
+                  <label for="displayPhone">手机号</label>
+                  <input type="tel" class="form-control" id="displayPhone">
+                </div>
+                <div class="form-group">
+                  <label for="displayQQ">QQ号</label>
+                  <input type="text" class="form-control" id="displayQQ">
+                </div>
+                <button id="updateUserInfoButton" class="btn btn-primary">确认修改</button>
+                <button id="logoutButton" class="btn btn-primary">返回登录</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card card-warning card-outline" id="hint">
+            <div class="card-header">
+                <h3 class="card-title"><strong>思路提示</strong></h3>
+            </div>
+            <div class="card-body">
+              <ul><li>嗯？谁改我的信息了！！！</li><br>
+                <li>fanqie和pilot是同级别用户~</li></ul>
+            </div>
+        </div>
+        <div class="card card-success card-outline" id="writeUp">
+            <div class="card-header">
+                <h3 class="card-title"><strong>正确实现</strong></h3>
+            </div>
+            <div class="card-body">
+              <ol start=""><li><p><span>选取两个权限相同的账号</span><code>pilot</code><span>和</span><code>fanqie</code><span>，登录</span><code>pilot/123456</code><span>：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l2-1.png" referrerpolicy="no-referrer" alt="l2-1"></div></p></li><li><p><span>抓包，输入手机号为：10010，点击修改即可修改自己的账号信息：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l2-2.png" referrerpolicy="no-referrer" alt="l2-2"></div></p></li><li><p><span>在不改变Token的情况下，将</span><code>username</code><span>参数修改为</span><code>fanqie</code><span>，尝试修改其他用户手机号：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l2-3.png" referrerpolicy="no-referrer" alt="l2-3"></div></p></li><li><p><span>登录</span><code>fanqie</code><span>账号可以发现，信息已被水平越权修改：</span></p><p><div class="card col-lg-11 col-xl-11"><img src="assist/l2-4.png" referrerpolicy="no-referrer" alt="l2-4"></div></p></li></ol>
+            </div>
+        </div>
+        <div class="card card-info card-outline" id="showSource">
+            <div class="card-header">
+                <h3 class="card-title"><strong>源码解析</strong></h3>
+            </div>
+            <div class="card-body">
+              <ul style="margin-bottom: 0;"><li>水平越权的产生大多因为在校验权限时，代码逻辑出现错误或参数判断错误。本题通过UID无法正确验证用户身份信息：</li></ul>
+              <div class="card-body" style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sCode-2.html" width="100%" height="750px"></object></div>
+          </div>
+        </div>
+        <div class="card card-orange card-outline" id="repository">
+            <div class="card-header">
+                <h3 class="card-title"><strong>知识梳理</strong></h3>
+            </div>
+            <div class="card-body">
+              <div style="padding-top: 0%; padding-bottom: 0%;"><object type="text/html" data="assist/sum-2.html" width="100%" height="1290px"></object></div>
+            </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<aside class="control-sidebar control-sidebar-dark">
+  <!-- Control sidebar content goes here -->
+</aside>
+<footer class="main-footer"></footer>
+<script src="../../dist/js/templateHandle.js"></script>
+<script>
+  setWrapperHeader("权限控制", ["水平越权"]);
+</script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="../../dist/js/adminlte.js"></script>
+<script>
+  var loginData = {
+    username: null,
+    token: null
+  };
+  function doLogin(){
+    let data = {
+      username: $("#username")[0].value,
+      password: $("#password")[0].value,
+    }
+    $.post({
+      url: `http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/auth/l2/login`,
+      data,
+      dataType: "json",
+      success(resp){
+        if(resp["status"] === "200"){
+          loginData.token = resp["token"]; // 从响应中获取token
+          loginData.username = resp["username"]; // 从响应中获取用户名
+          $("#notice")[0].innerHTML = generateNote("登录成功！欢迎, " + resp["username"]);
+          fetchUserInfoData();
+        } else if(resp["status"] === "405"){
+          $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+        } else if(resp["status"] === "401"){
+          $("#notice")[0].innerHTML = generateNote("登录失败：" + resp["msg"]);
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        // 添加错误处理
+        $("#notice")[0].innerHTML = generateNote("发生错误：" + textStatus + ", " + errorThrown);
+      }
+    })
+  }
+
+  function fetchUserInfoData() {
+    $.ajax({
+      url: 'http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/auth/l2/getUserinfo?n=' + loginData.username,
+      headers: {
+        'Authorization': loginData.token
+      },
+      success: function(response) {
+        if (response.status === "403") {
+          $("#notice")[0].innerHTML = generateNote("Token过期或错误，请重新登录");
+        } else if (response.status === "200") {
+          $("#LoginT").hide();
+          $("#Login").hide();
+          populateUserTable(response.msg);
+        }
+      },
+      error: function() {
+        $("#notice")[0].innerHTML = generateNote("数据获取失败，请稍后重试");
+      }
+    });
+  }
+
+  function populateUserTable(data) {
+    $("#UserInfoTitle").show();
+    $("#UserInfo").show();
+    var userData = data[0];
+    // 填充用户数据到表单中
+    $("#displayPid").val(userData.PID); // 工号
+    $("#displayUsername").val(userData.USERNAME); // 用户名
+    $("#displayPhone").val(userData.PHONE); // 手机号
+    $("#displayQQ").val(userData.QQ); // QQ号
+  }
+
+  function updateUserInfo() {
+    // 从输入字段中收集数据
+    let updatedData = {
+      username: $("#displayUsername").val(),
+      phone: $("#displayPhone").val(),
+      qq: $("#displayQQ").val()
+    };
+
+    // 发送POST请求到服务器更新用户信息
+    $.post({
+      url: 'http://{ENV:NET_IP}:{ENV:FLASK_PORT}/api/auth/l2/modifyUserInfo', // 修改为您的API端点
+      headers: {
+        'Authorization': loginData.token // 使用登录后获取的token
+      },
+      data: updatedData, // 发送更新的用户信息
+      dataType: "json",
+      success: function(response) {
+        // 根据返回的状态处理响应
+        if (response.status === "200") {
+          $(document).Toasts('create', {
+            class: 'bg-success',
+            title: 'SUCCESS',
+            autohide: true,
+            delay: 4000,
+            body: '修改成功！'
+          });
+          fetchUserInfoData();
+        } else if (response.status === "403" || response.status === "400") {
+          $(document).Toasts('create', {
+            class: 'bg-warning',
+            title: 'WARNING',
+            autohide: true,
+            delay: 4000,
+            body: '权限认证失败或权限不足，请重新登录！'
+          });
+        } else {
+          $(document).Toasts('create', {
+            class: 'bg-danger',
+            title: 'ERROR',
+            autohide: true,
+            delay: 4000,
+            body: ' 修改失败，请稍后重试…… '
+          });
+        }
+      },
+      error: function() {
+        $(document).Toasts('create', {
+          class: 'bg-danger',
+          title: 'ERROR',
+          autohide: true,
+          delay: 4000,
+          body: ' 修改失败，请稍后重试…… '
+        });
+      }
+    });
+  }
+
+  // 在文档加载完毕后绑定按钮点击事件
+  $(document).ready(function() {
+    // 绑定更新按钮的点击事件
+    $("#updateUserInfoButton").click(function() {
+      updateUserInfo(); // 调用更新用户信息的函数
+    });
+  });
+
+  function logout() {
+    // 清除登录数据
+    loginData.username = null;
+    loginData.token = null;
+
+    // 清空表单输入
+    $("#username").val('');
+    $("#password").val('');
+
+    // 显示登录表单
+    $("#LoginT").show();
+    $("#Login").show();
+
+    // 隐藏用户信息表单
+    $("#UserInfo").hide();
+    $("#UserInfoTitle").hide();
+
+    // 清除通知
+    $("#notice").html('');
+  }
+
+  // 在文档加载完毕后绑定注销按钮的点击事件
+  $(document).ready(function() {
+    // 绑定确认修改按钮的点击事件
+    $("#updateUserInfoButton").click(function() {
+      updateUserInfo();
+    });
+
+    // 绑定注销按钮的点击事件
+    $("#logoutButton").click(function() {
+      logout();
+    });
+  });
+</script>
+</body>
+</html>
