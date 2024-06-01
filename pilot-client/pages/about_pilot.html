@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>关于Pilot</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="../../plugins/googleapis/fonts.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+    <div class="preloader flex-column justify-content-center align-items-center">
+        <img class="animation__wobble" src="../dist/img/pilot.png" alt="Pilot-fanqie-Logo" height="150" width="150">
+    </div>
+    <nav id="Navbar" class="main-header navbar navbar-expand navbar-light"></nav>
+    <aside id="Container" class="main-sidebar sidebar-light-primary elevation-4"></aside>
+    <div class="content-wrapper" id="Wrapper">
+        <section class="content-header" id="WrapperHeader"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>Pilot-Web V1.0</strong></h3>
+                    </div> <!-- /.card-body -->
+                    <div class="card-body">
+                        <p>Pilot是基于Web安全的漏洞测试靶场，一个专为教师和学生设计的WEB安全教学实践平台，旨在帮助网安初学者快速熟悉和掌握目前常见漏洞的原理和实际利用方法，以及帮助安全实践教师在课堂环境中演示教学如何进行WEB漏洞测试。</p>
+                        <p>Pilot靶场配套学习文档可以<a href="../Pilot-Web.pdf" target="_blank">在这里</a>找到。</p>
+                        <p>Pilot的开源项目位于Github：<a href="https://github.com/2740908911/Pilot-Web" target="_blank">Pilot-web</a>，您可通过提交Issus向作者反馈遇到的问题或是您的建议。</p>
+                        <hr>
+                        <h3 class="v_title" style="margin-top: 25px;">安全须知</h3>
+                        <p><strong>Pilot漏洞靶场极其容易受到攻击！</strong></p>
+                        <p>请勿将其部署到您的云服务器或任何面向互联网的服务器上，这样将导致您的服务器被攻破。Pilot推荐使用虚拟机（如VMware、WSL2），并通过Docker安装Pilot-Web靶场。尽量不要在本机环境直接部署靶场，除非您确认可保证自己的主机安全。</p>
+                        <hr>
+                        <h3 class="v_title" style="margin-top: 25px;">免责声明</h3>
+                        <p>作者不对任何人使用这个应用程序（Pilot靶场）的方式承担责任。在上文作者已经明确了该应用程序的开发目的，Pilot靶场用于安全初学者合法学习和安全教师合法教学，而不是进行非法利用或恶意使用。</p>
+                        <p>作者已发出警告（安全须知）并采取措施，以防止用户将Pilot部署运行在实际的服务器上，如果您的Web服务器因安装Pilot而遭受攻击，则应该由上传/安装部署该靶场的人员负责。</p>
+                        <hr>
+                        <h3 class="v_title" style="margin-top: 25px;">致谢</h3>
+                        <p>作者在开发Pilot漏洞测试教学靶场时，对现有的部分开源靶场功能和内容进行了参考整理，同时对一些开源知识库进行了参考引用，在此表示由衷感谢，其中主要的参考项目有：</p>
+                        <ol>
+                            <li>Pikachu漏洞练习平台：<a href="https://github.com/zhuifengshaonianhanlu/pikachu" target="_blank">https://github.com/zhuifengshaonianhanlu/pikachu</a></li>
+                            <li>ElectricRat靶场：<a href="https://github.com/linjiananallnt/ElectricRat" target="_blank">https://github.com/linjiananallnt/ElectricRat</a></li>
+                            <li>DVWA漏洞靶场：<a href="https://github.com/digininja/DVWA" target="_blank">https://github.com/digininja/DVWA</a></li>
+                            <li>D4M1TS知识库：<a href="https://blog.gm7.org/" target="_blank">https://blog.gm7.org/</a></li>
+                            <li>网络安全-自学笔记：<a href="http://t.csdnimg.cn/GXYeq" target="_blank">http://t.csdnimg.cn/GXYeq</a></li>
+                        </ol>
+                        <p>互联网WEB安全的发展离不开这些安全人员的无私奉献，希望本项目也能向领航员一样，引领更多的安全初学者步入新世界！</p>
+                        <p style="font-family: 'Kristi', cursive; color: #3e3f40; font-size: 2.2em; margin-top: 30px; text-align: right; margin-right: 25px;">Fanqie</p>
+                    </div><!-- /.card-body -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+    </div>
+
+    <script src="../dist/js/templateHandle.js"></script>
+    <script>
+        setWrapperHeader("关于靶场", ["Pilot-Web V1.0"]);
+    </script>
+    <!-- REQUIRED SCRIPTS -->
+    <!-- jQuery -->
+    <script src="../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../dist/js/adminlte.js"></script>
+</body>
+</html>
