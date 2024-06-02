@@ -75,16 +75,16 @@ Pilot靶场由 Flask + Mysql + AdminLTE 框架编写而成，模拟**WEB漏洞�
 
 > 前置条件：Linux系统虚拟机，确保已安装 Docker + Docker-Compose，网络正常。
 
-Pilot漏洞测试教学靶场采用Docker+Docker-Compose技术封装，通过快速部署脚本init.sh进行配置管理和快速部署。
+Pilot漏洞测试教学靶场采用Docker+Docker-Compose技术封装，通过快速部署脚本init.sh进行配置管理和快速部署，部署过程中请使用高权限账户（例如root权限）进行操作。
 
-1. 通过clone或[releases](https://github.com/2740908911/Pilot-Web/releases/download/v1.0.0/Pilot-Web.zip)下载最新的Pilot靶场源码，并解压至部署目录。
+1. 通过clone或[releases](https://github.com/2740908911/Pilot-Web/releases/)下载最新的Pilot靶场源码，并解压至部署目录。
 
-2. 通过ifconfig命令查看出网IP地址。若靶场只在虚拟机内使用，则略过此步。
+2. 通过ifconfig命令查看出网IP地址。
 
-3. 在Pilot项目目录中，为快速部署脚本init.sh和其他静态文件赋予执行和读权限：
+3. 在Pilot项目目录中，为快速部署脚本init.sh赋予执行：
 
    ```shell
-   sudo chmod -R 755 ./*
+   sudo chmod +x ./init.sh
    ```
 
 4. 自动化部署Pilot靶场，-ip参数处填写出网IP，若不需要则可省略：
