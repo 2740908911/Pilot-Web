@@ -81,13 +81,13 @@ Pilot漏洞测试教学靶场采用Docker+Docker-Compose技术封装，通过快
 
 2. 通过ifconfig命令查看出网IP地址。
 
-3. 在Pilot项目目录中，为快速部署脚本init.sh赋予执行：
+3. 在Pilot项目目录中，为快速部署脚本init.sh赋予执行权限：
 
    ```shell
    sudo chmod +x ./init.sh
    ```
 
-4. 自动化部署Pilot靶场，-ip参数处填写出网IP，若不需要则可省略：
+4. 自动化部署Pilot靶场，此过程需要联网进行：
 
    ```shell
    sh init.sh -ip=xxx.xxx.xxx.xxx -up
