@@ -157,3 +157,5 @@ Pilot漏洞测试教学靶场采用Docker+Docker-Compose技术封装，通过快
 有问题请提交ISSUES，项目求**Star**！！！！
 
 如果Pilot对您有帮助，可以打赏作者[一杯奶茶](https://reward.f4nq1e.com/)喔~
+
+转载请注明作者Fanqie与github地址，谢谢！
