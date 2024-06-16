@@ -11,6 +11,7 @@ Pilot漏洞测试教学靶场
 </p>
 
 <p align="center">
+<a href="https://f4nq1e.com/archives/Pilot-Web.html">项目原文</a>
 <a href="https://github.com/2740908911/Pilot-Web">中文文档</a>
 <a href="https://github.com/2740908911/Pilot-Web/blob/main/README_EN.md">English documentation</a>
 </p>
@@ -159,3 +160,9 @@ Pilot漏洞测试教学靶场采用Docker+Docker-Compose技术封装，通过快
 如果Pilot对您有帮助，可以打赏作者[一杯奶茶](https://reward.f4nq1e.com/)喔~
 
 转载请注明作者Fanqie与github地址，谢谢！
+
+## Q&A
+
+Q1. 如何解决Docker国内超时问题？
+
+A1：国内最近很多Docker镜像站都挂掉了，建议将虚拟机挂代理使用官方源下载镜像，或浏览器搜索没有挂掉的镜像源进行替换，可参考的项目：https://github.com/DaoCloud/public-image-mirror
