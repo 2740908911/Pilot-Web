@@ -111,13 +111,11 @@ Pilot漏洞测试教学靶场采用Docker+Docker-Compose技术封装，通过快
 
 ---
 
-## 部署示例与教程
+## 示例与部署教程
 
-**BiliBili地址：** https://www.bilibili.com/video/BV1b142127PJ/
+**漏洞文档预览：**[Pilot漏洞测试教学靶场：解题手册](https://f4nq1e.com/archives/pilot-pdf.html)
 
-<!--**图片演示：** 时间较长，可以根据部署视频进行部署-->
-
-<!--![PILOT演示视频](readme/PILOT.gif)-->
+**部署教程：** [BiliBili地址](https://www.bilibili.com/video/BV1b142127PJ/)
 
 ---
 
